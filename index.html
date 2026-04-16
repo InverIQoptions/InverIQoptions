@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InveriQOptions | Consultoría Contable y Financiera</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0d1f3c;
+      --navy-mid:   #162848;
+      --navy-light: #1e3560;
+      --gold:       #c9a84c;
+      --gold-light: #e2c06b;
+      --gold-pale:  #f5e8c0;
+      --white:      #ffffff;
+      --gray-50:    #f8f9fc;
+      --gray-100:   #eef0f5;
+      --gray-400:   #9aa3b2;
+      --gray-600:   #5a6480;
+      --gray-800:   #1e2640;
+      --radius:     10px;
+      --shadow-sm:  0 2px 8px rgba(13,31,60,.08);
+      --shadow-md:  0 6px 24px rgba(13,31,60,.14);
+      --shadow-lg:  0 16px 48px rgba(13,31,60,.18);
+      --transition: .25s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--gray-800); background: var(--white); line-height: 1.65; }
+
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+    .section    { padding: 96px 0; }
+
+    .section-tag {
+      display: inline-block; font-size: .72rem; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 3vw, 2.5rem);
+      color: var(--navy); line-height: 1.2; margin-bottom: 16px;
+    }
+    .section-subtitle { font-size: 1.05rem; color: var(--gray-600); max-width: 540px; }
+    .section-header { margin-bottom: 60px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 14px 30px;
+      border-radius: 6px; font-size: .95rem; font-weight: 600; cursor: pointer;
+      border: none; text-decoration: none; transition: var(--transition);
+    }
+    .btn-primary { background: var(--gold); color: var(--navy); }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,168,76,.35); }
+    .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.55); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ════ NAVBAR ════ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    #navbar.scrolled { background: var(--navy); box-shadow: 0 2px 20px rgba(0,0,0,.25); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 74px; }
+
+    .logo { display: flex; align-items: center; text-decoration: none; }
+    .logo-img { max-width: 140px; height: auto; display: block; object-fit: contain; }
+
+    .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
+    .nav-links a {
+      display: block; padding: 8px 14px; font-size: .88rem; font-weight: 500;
+      color: rgba(255,255,255,.8); text-decoration: none; border-radius: 5px; transition: var(--transition);
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--gold); background: rgba(201,168,76,.1); }
+    .nav-links .btn { padding: 9px 22px; font-size: .85rem; margin-left: 10px; }
+    .nav-links .btn.active { background: var(--gold-light); color: var(--navy); }
+
+    /* Hamburger → X */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: transform .3s ease, opacity .3s ease; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ════ HERO ════ */
+    #hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #1a3a6e 100%);
+      display: flex; align-items: center; position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 70% 50%, rgba(201,168,76,.12) 0%, transparent 55%),
+                  radial-gradient(circle at 15% 80%, rgba(201,168,76,.07) 0%, transparent 40%);
+    }
+    .hero-geo {
+      position: absolute; right: -80px; top: 50%; transform: translateY(-50%);
+      width: min(560px, 52vw); height: min(560px, 52vw);
+      border-radius: 50%; border: 1px solid rgba(201,168,76,.18); pointer-events: none;
+    }
+    .hero-geo::after {
+      content: ''; position: absolute; inset: 40px;
+      border-radius: 50%; border: 1px solid rgba(201,168,76,.12);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 640px; padding-top: 80px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.35);
+      border-radius: 50px; padding: 6px 16px;
+      font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gold-light); margin-bottom: 28px;
+    }
+    .hero-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+    .hero-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.6rem);
+      color: var(--white); line-height: 1.15; margin-bottom: 24px;
+    }
+    .hero-title em { color: var(--gold); font-style: normal; }
+    .hero-desc { font-size: 1.08rem; color: rgba(255,255,255,.72); max-width: 500px; margin-bottom: 40px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 40px; margin-top: 64px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,.1); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); font-weight: 700; line-height: 1; }
+    .stat-label { font-size: .82rem; color: rgba(255,255,255,.55); margin-top: 4px; text-transform: uppercase; letter-spacing: .08em; }
+
+    /* ════ SERVICIOS ════ */
+    #servicios { background: var(--gray-50); }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .service-card {
+      background: var(--white); border-radius: var(--radius); padding: 44px 36px;
+      border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm);
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .service-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .service-card:hover::after { transform: scaleX(1); }
+    .service-icon {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 26px;
+    }
+    .service-icon svg { width: 28px; height: 28px; stroke: var(--gold); fill: none; stroke-width: 1.6; }
+    .service-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--navy); margin-bottom: 12px; }
+    .service-desc { font-size: .93rem; color: var(--gray-600); margin-bottom: 24px; }
+    .service-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .service-features li { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--gray-600); }
+    .service-features li::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+    .service-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 28px; font-size: .88rem; font-weight: 600; color: var(--navy); text-decoration: none; transition: var(--transition); }
+    .service-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; transition: transform .2s; }
+    .service-link:hover { color: var(--gold); }
+    .service-link:hover svg { transform: translateX(4px); }
+
+    /* ════ PRECIOS ════ */
+    #precios { background: var(--white); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; align-items: start; }
+    .pricing-card {
+      border-radius: 14px; padding: 40px 32px; border: 1.5px solid var(--gray-100);
+      transition: var(--transition); position: relative;
+    }
+    .pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .pricing-card.featured {
+      background: var(--navy); border-color: var(--navy);
+      transform: translateY(-12px); box-shadow: var(--shadow-lg);
+    }
+    .pricing-card.featured:hover { transform: translateY(-16px); }
+    .pricing-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--gold); color: var(--navy); font-size: .72rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; padding: 5px 16px; border-radius: 50px;
+      white-space: nowrap;
+    }
+    .pricing-plan { font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .pricing-card.featured .pricing-plan { color: var(--gold-light); }
+    .pricing-price {
+      display: flex; align-items: flex-end; gap: 4px; margin-bottom: 6px;
+    }
+    .price-currency { font-size: 1.1rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .price-amount { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--navy); line-height: 1; }
+    .price-period { font-size: .85rem; color: var(--gray-400); margin-bottom: 6px; }
+    .pricing-card.featured .price-currency,
+    .pricing-card.featured .price-amount { color: var(--white); }
+    .pricing-card.featured .price-period { color: rgba(255,255,255,.5); }
+    .pricing-desc { font-size: .88rem; color: var(--gray-600); margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--gray-100); }
+    .pricing-card.featured .pricing-desc { color: rgba(255,255,255,.6); border-bottom-color: rgba(255,255,255,.1); }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .pricing-features li { display: flex; align-items: flex-start; gap: 10px; font-size: .88rem; color: var(--gray-700); }
+    .pricing-card.featured .pricing-features li { color: rgba(255,255,255,.8); }
+    .pricing-features li svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 2.5; flex-shrink: 0; margin-top: 2px; }
+    .pricing-features li.disabled svg { stroke: var(--gray-400); }
+    .pricing-features li.disabled { color: var(--gray-400); }
+    .pricing-cta { width: 100%; justify-content: center; }
+    .btn-navy { background: var(--navy); color: var(--white); }
+    .btn-navy:hover { background: var(--navy-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13,31,60,.3); }
+
+    /* ════ POR QUÉ ELEGIRNOS ════ */
+    #nosotros { background: var(--gray-50); }
+    .why-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .why-visual { position: relative; display: flex; justify-content: center; }
+    .why-card-main {
+      background: var(--navy); border-radius: 16px; padding: 48px 40px;
+      color: var(--white); max-width: 360px; width: 100%; box-shadow: var(--shadow-lg);
+    }
+    .why-card-main .big-num { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+    .why-card-main p { font-size: .95rem; color: rgba(255,255,255,.7); margin-bottom: 32px; }
+    .mini-bar { height: 4px; background: rgba(255,255,255,.1); border-radius: 4px; margin-bottom: 8px; overflow: hidden; }
+    .mini-bar-fill { height: 100%; background: var(--gold); border-radius: 4px; width: 0; transition: width 1.4s ease; }
+    .mini-bar-label { display: flex; justify-content: space-between; font-size: .75rem; color: rgba(255,255,255,.55); }
+    .why-float {
+      position: absolute; bottom: -24px; right: -24px;
+      background: var(--gold); border-radius: 12px; padding: 20px 24px;
+      box-shadow: var(--shadow-md); text-align: center; min-width: 140px;
+    }
+    .why-float .fn { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--navy); font-weight: 700; line-height: 1; }
+    .why-float .fl { font-size: .72rem; color: var(--navy-mid); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-top: 4px; }
+    .why-points { display: grid; gap: 28px; }
+    .why-point { display: flex; gap: 20px; align-items: flex-start; }
+    .why-num {
+      width: 44px; height: 44px; background: var(--gold-pale); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); flex-shrink: 0;
+    }
+    .why-point-body h4 { font-weight: 600; font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+    .why-point-body p { font-size: .9rem; color: var(--gray-600); }
+
+    /* ════ TESTIMONIOS ════ */
+    #testimonios { background: var(--white); }
+    .testimonios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .testimonio-card {
+      background: var(--gray-50); border-radius: 14px; padding: 36px 32px;
+      border: 1px solid var(--gray-100); position: relative; transition: var(--transition);
+    }
+    .testimonio-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .testimonio-card::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif; font-size: 5rem; color: var(--gold);
+      position: absolute; top: 12px; left: 28px; line-height: 1; opacity: .3;
+    }
+    .testimonio-stars { display: flex; gap: 3px; margin-bottom: 20px; }
+    .testimonio-stars svg { width: 16px; height: 16px; fill: var(--gold); stroke: none; }
+    .testimonio-text { font-size: .93rem; color: var(--gray-600); line-height: 1.75; margin-bottom: 24px; font-style: italic; }
+    .testimonio-author { display: flex; align-items: center; gap: 14px; }
+    .testimonio-avatar {
+      width: 46px; height: 46px; border-radius: 50%; background: var(--navy);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); font-weight: 700;
+    }
+    .testimonio-name { font-weight: 600; font-size: .93rem; color: var(--navy); }
+    .testimonio-role { font-size: .78rem; color: var(--gray-400); margin-top: 2px; }
+
+    /* ════ BLOG ════ */
+    #blog { background: var(--gray-50); }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .blog-card { background: var(--white); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm); transition: var(--transition); }
+    .blog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .blog-thumb { height: 190px; display: flex; align-items: center; justify-content: center; }
+    .blog-thumb.t1 { background: linear-gradient(135deg, #0d1f3c, #1e3560); }
+    .blog-thumb.t2 { background: linear-gradient(135deg, #1e3560, #2a4a80); }
+    .blog-thumb.t3 { background: linear-gradient(135deg, #162848, #0d1f3c); }
+    .blog-thumb-icon { width: 64px; height: 64px; background: rgba(201,168,76,.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .blog-thumb-icon svg { width: 30px; height: 30px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .blog-body { padding: 28px; }
+    .blog-cat { font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .blog-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
+    .blog-excerpt { font-size: .86rem; color: var(--gray-600); margin-bottom: 18px; }
+    .blog-meta { display: flex; align-items: center; gap: 8px; font-size: .78rem; color: var(--gray-400); }
+
+    /* ════ FAQ ════ */
+    #faq { background: var(--white); }
+    .faq-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; align-items: flex-start; }
+    .faq-intro .section-subtitle { margin-bottom: 36px; }
+    .faq-cta-box {
+      background: var(--navy); border-radius: 14px; padding: 36px; margin-top: 40px;
+    }
+    .faq-cta-box h4 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--white); margin-bottom: 10px; }
+    .faq-cta-box p { font-size: .88rem; color: rgba(255,255,255,.6); margin-bottom: 22px; }
+    .faq-list { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      border: 1.5px solid var(--gray-100); border-radius: 10px; overflow: hidden;
+      transition: border-color var(--transition);
+    }
+    .faq-item.open { border-color: var(--gold); }
+    .faq-question {
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      padding: 20px 24px; cursor: pointer; background: var(--white);
+      font-weight: 600; font-size: .93rem; color: var(--navy); user-select: none;
+    }
+    .faq-question:hover { background: var(--gray-50); }
+    .faq-icon {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--gray-100);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      transition: background var(--transition), transform var(--transition);
+    }
+    .faq-icon svg { width: 14px; height: 14px; stroke: var(--navy); fill: none; stroke-width: 2.5; transition: transform .3s; }
+    .faq-item.open .faq-icon { background: var(--gold); transform: rotate(0); }
+    .faq-item.open .faq-icon svg { stroke: var(--navy); transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease;
+      font-size: .9rem; color: var(--gray-600); line-height: 1.75;
+    }
+    .faq-answer-inner { padding: 0 24px 20px; }
+    .faq-item.open .faq-answer { max-height: 300px; }
+
+    /* ════ CTA ════ */
+    #cta {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      padding: 80px 0; position: relative; overflow: hidden; text-align: center;
+    }
+    #cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(201,168,76,.12) 0%, transparent 60%); }
+    #cta .container { position: relative; }
+    #cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); color: var(--white); margin-bottom: 16px; }
+    #cta p { font-size: 1.05rem; color: rgba(255,255,255,.65); max-width: 500px; margin: 0 auto 36px; }
+    .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ════ CONTACTO ════ */
+    #contacto { background: var(--gray-50); }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: flex-start; }
+    .contact-info h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--navy); margin-bottom: 16px; }
+    .contact-info p { font-size: .93rem; color: var(--gray-600); margin-bottom: 36px; }
+    .contact-items { display: flex; flex-direction: column; gap: 22px; }
+    .contact-item { display: flex; gap: 16px; align-items: flex-start; }
+    .contact-icon { width: 44px; height: 44px; background: var(--navy); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .contact-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.8; }
+    .contact-item-body .label { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+    .contact-item-body .value { font-size: .93rem; color: var(--gray-800); }
+
+    .contact-form { background: var(--white); border-radius: 14px; padding: 44px; border: 1px solid var(--gray-100); box-shadow: var(--shadow-sm); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 0; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-group label { font-size: .83rem; font-weight: 500; color: var(--gray-800); }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px 16px; border: 1.5px solid var(--gray-100); border-radius: 7px;
+      font-family: 'Inter', sans-serif; font-size: .9rem; color: var(--gray-800);
+      background: var(--white); transition: border-color var(--transition); outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,.12); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit { width: 100%; justify-content: center; padding: 15px; font-size: 1rem; }
+
+    /* ════ FOOTER ════ */
+    footer { background: var(--navy); color: rgba(255,255,255,.65); padding: 70px 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1.2fr; gap: 50px; padding-bottom: 60px; }
+    .footer-brand .logo { margin-bottom: 18px; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; color: rgba(255,255,255,.55); max-width: 280px; }
+    .footer-socials { display: flex; gap: 10px; margin-top: 24px; }
+    .social-btn { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; transition: var(--transition); text-decoration: none; }
+    .social-btn svg { width: 16px; height: 16px; fill: rgba(255,255,255,.6); transition: fill var(--transition); }
+    .social-btn:hover { background: var(--gold); }
+    .social-btn:hover svg { fill: var(--navy); }
+    .footer-col h5 { font-size: .85rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--white); margin-bottom: 20px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: .88rem; color: rgba(255,255,255,.55); text-decoration: none; transition: color var(--transition); }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-contact-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .footer-contact-list li { display: flex; gap: 10px; align-items: flex-start; font-size: .85rem; }
+    .footer-contact-list li svg { width: 15px; height: 15px; stroke: var(--gold); fill: none; stroke-width: 2; flex-shrink: 0; margin-top: 2px; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 22px 0; display: flex; align-items: center; justify-content: space-between; font-size: .8rem; color: rgba(255,255,255,.35); }
+    .footer-bottom a { color: var(--gold); text-decoration: none; }
+
+    /* ════ BOTONES FLOTANTES ════ */
+    .float-buttons { position: fixed; bottom: 28px; right: 28px; display: flex; flex-direction: column; gap: 12px; z-index: 900; align-items: flex-end; }
+
+    #scrollTop {
+      width: 44px; height: 44px; background: var(--gold); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none; box-shadow: 0 4px 14px rgba(201,168,76,.4);
+      opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s;
+    }
+    #scrollTop.visible { opacity: 1; transform: translateY(0); }
+    #scrollTop svg { width: 18px; height: 18px; stroke: var(--navy); fill: none; stroke-width: 2.5; }
+
+    #whatsappBtn {
+      display: flex; align-items: center; gap: 10px;
+      background: #25d366; border-radius: 50px; padding: 12px 18px 12px 14px;
+      text-decoration: none; box-shadow: 0 4px 18px rgba(37,211,102,.4);
+      transition: var(--transition); overflow: hidden; max-width: 52px;
+    }
+    #whatsappBtn:hover { max-width: 220px; box-shadow: 0 6px 24px rgba(37,211,102,.5); }
+    #whatsappBtn svg { width: 24px; height: 24px; fill: #fff; flex-shrink: 0; }
+    #whatsappBtn span { font-size: .85rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; }
+
+    /* ════ RESPONSIVE ════ */
+    @media (max-width: 1024px) {
+      .services-grid, .blog-grid, .testimonios-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-card.featured { transform: none; grid-column: span 2; max-width: 480px; margin: 0 auto; width: 100%; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+      .why-layout { grid-template-columns: 1fr; gap: 60px; }
+      .why-visual { order: -1; }
+      .faq-layout { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 768px) {
+      .section { padding: 72px 0; }
+      .nav-links {
+        display: none; position: absolute; top: 74px; left: 0; right: 0;
+        background: var(--navy); flex-direction: column; gap: 0; padding: 12px; box-shadow: var(--shadow-md);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 16px; border-radius: 6px; width: 100%; }
+      .nav-links .btn { margin: 10px 0 4px; width: 100%; justify-content: center; }
+      .hamburger { display: flex; }
+      .services-grid, .blog-grid, .testimonios-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: none; grid-column: auto; max-width: 100%; }
+      .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 24px; flex-wrap: wrap; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+      .why-float { position: static; margin-top: 20px; display: inline-block; }
+      .contact-form { padding: 28px; }
+      .float-buttons { bottom: 20px; right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════ NAVBAR -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <img src="images/logo.png.png" alt="InveriQOptions" class="logo-img" />
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero"       data-section="hero">Inicio</a></li>
+        <li><a href="#servicios"  data-section="servicios">Servicios</a></li>
+        <li><a href="#precios"    data-section="precios">Precios</a></li>
+        <li><a href="#nosotros"   data-section="nosotros">Nosotros</a></li>
+        <li><a href="#blog"       data-section="blog">Blog</a></li>
+        <li><a href="#contacto"   data-section="contacto" class="btn btn-primary">Contacto</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════ HERO -->
+<section id="hero">
+  <div class="hero-geo"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge"><span></span> Consultoría Especializada para PYMES</div>
+      <h1 class="hero-title">
+        Decisiones financieras<br>
+        que impulsan el<br>
+        <em>crecimiento real</em>
+      </h1>
+      <p class="hero-desc">
+        Transformamos la contabilidad y las finanzas de tu empresa en ventajas competitivas.
+        Asesoría estratégica, precisión contable y herramientas Excel de alto impacto.
+      </p>
+      <div class="hero-actions">
+        <a href="#contacto" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Solicitar consultoría
+        </a>
+        <a href="#servicios" class="btn btn-outline">Ver servicios</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num" data-target="200" data-suffix="+">0</div>
+          <div class="stat-label">Clientes PYMES</div>
+        </div>
+        <div>
+          <div class="stat-num" data-target="10" data-suffix="+">0</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div>
+          <div class="stat-num" data-target="98" data-suffix="%">0</div>
+          <div class="stat-label">Satisfacción</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ SERVICIOS -->
+<section id="servicios" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Nuestros servicios</span>
+      <h2 class="section-title">Soluciones financieras<br>integrales para tu negocio</h2>
+      <p class="section-subtitle">Diseñamos estrategias personalizadas que se adaptan a las necesidades específicas de cada empresa.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M7 8h2v5H7zM11 6h2v7h-2zM15 9h2v4h-2z"/></svg>
+        </div>
+        <h3 class="service-name">Consultoría Contable</h3>
+        <p class="service-desc">Optimizamos la salud financiera de tu empresa con servicios de contabilidad general, declaraciones fiscales, nómina y cumplimiento regulatorio. Precisión, orden y tranquilidad para que te enfoques en hacer crecer tu negocio.</p>
+        <ul class="service-features">
+          <li>Contabilidad general y fiscal</li>
+          <li>Declaraciones ante el SAT</li>
+          <li>Nómina y IMSS</li>
+          <li>Reportes financieros mensuales</li>
+        </ul>
+        <a href="#contacto" class="service-link">Saber más <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <h3 class="service-name">Administración y Control en Remodelaciones</h3>
+        <p class="service-desc">Controlamos el presupuesto, proveedores y flujos de efectivo de tu proyecto de remodelación o construcción. Evitamos sobrecostos y te damos visibilidad total del dinero en cada etapa de la obra.</p>
+        <ul class="service-features">
+          <li>Presupuesto y control de obra</li>
+          <li>Gestión de proveedores y pagos</li>
+          <li>Flujo de caja por etapa</li>
+          <li>Reportes de avance financiero</li>
+        </ul>
+        <a href="#contacto" class="service-link">Saber más <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3 class="service-name">Plantillas Excel — Finanzas Personales</h3>
+        <p class="service-desc">80 plantillas profesionales para tomar control de tu dinero. Desde control de gastos hasta planificación de inversiones — herramientas prácticas para mejorar tu situación financiera sin ser experto.</p>
+        <ul class="service-features">
+          <li>Control de gastos mensuales</li>
+          <li>Reducción de deudas</li>
+          <li>Planificación de ahorro</li>
+          <li>Seguimiento de inversiones personales</li>
+        </ul>
+        <a href="#contacto" class="service-link">Ver catálogo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ PRECIOS -->
+<section id="precios" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Planes y precios</span>
+      <h2 class="section-title">Elige el plan ideal<br>para tu empresa</h2>
+      <p class="section-subtitle">Todos los planes incluyen consulta inicial gratuita y atención personalizada.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <div class="pricing-card">
+        <div class="pricing-plan">Básico</div>
+        <div class="pricing-price">
+          <span class="price-currency">$</span>
+          <span class="price-amount">149</span>
+        </div>
+        <div class="price-period">/ mes</div>
+        <p class="pricing-desc">Ideal para emprendedores y negocios que dan sus primeros pasos formales.</p>
+        <ul class="pricing-features">
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Contabilidad básica mensual</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Declaración IVA trimestral</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> 1 plantilla Excel incluida</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Soporte por correo</li>
+          <li class="disabled"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Proyecciones financieras</li>
+          <li class="disabled"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Reunión mensual</li>
+        </ul>
+        <a href="#contacto" class="btn btn-navy pricing-cta">Comenzar</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Más popular</div>
+        <div class="pricing-plan">Profesional</div>
+        <div class="pricing-price">
+          <span class="price-currency" style="color:#fff">$</span>
+          <span class="price-amount">299</span>
+        </div>
+        <div class="price-period">/ mes</div>
+        <p class="pricing-desc">Para PYMES en crecimiento que necesitan control financiero completo.</p>
+        <ul class="pricing-features">
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Contabilidad completa</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Declaraciones IVA e ISR</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Pack 5 plantillas Excel</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Proyecciones financieras</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Reunión mensual incluida</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Soporte prioritario 24h</li>
+        </ul>
+        <a href="#contacto" class="btn btn-primary pricing-cta">Comenzar</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-plan">Empresa</div>
+        <div class="pricing-price">
+          <span class="price-currency">$</span>
+          <span class="price-amount">549</span>
+        </div>
+        <div class="price-period">/ mes</div>
+        <p class="pricing-desc">Solución integral para empresas con operaciones complejas y múltiples áreas.</p>
+        <ul class="pricing-features">
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Todo lo del plan Profesional</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Asesoría financiera estratégica</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Plantillas ilimitadas</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Dashboard KPI personalizado</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Reuniones semanales</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Contador dedicado</li>
+        </ul>
+        <a href="#contacto" class="btn btn-navy pricing-cta">Comenzar</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ POR QUÉ ELEGIRNOS -->
+<section id="nosotros" class="section">
+  <div class="container">
+    <div class="why-layout">
+      <div class="why-visual">
+        <div class="why-card-main">
+          <div class="big-num">+10</div>
+          <p>Años asesorando empresas hacia la solidez financiera con resultados medibles.</p>
+          <div style="margin-top:8px">
+            <div class="mini-bar"><div class="mini-bar-fill" data-width="94"></div></div>
+            <div class="mini-bar-label"><span>Cumplimiento tributario</span><span>94%</span></div>
+          </div>
+          <div style="margin-top:16px">
+            <div class="mini-bar"><div class="mini-bar-fill" data-width="87"></div></div>
+            <div class="mini-bar-label"><span>Reducción de costos</span><span>87%</span></div>
+          </div>
+          <div style="margin-top:16px">
+            <div class="mini-bar"><div class="mini-bar-fill" data-width="98"></div></div>
+            <div class="mini-bar-label"><span>Satisfacción del cliente</span><span>98%</span></div>
+          </div>
+        </div>
+        <div class="why-float">
+          <div class="fn">200+</div>
+          <div class="fl">PYMES asesoradas</div>
+        </div>
+      </div>
+      <div>
+        <span class="section-tag">Por qué elegirnos</span>
+        <h2 class="section-title">Experiencia que se traduce en resultados</h2>
+        <p class="section-subtitle" style="margin-bottom:44px">No somos solo contadores. Somos socios estratégicos comprometidos con el crecimiento sostenible de tu empresa.</p>
+        <div class="why-points">
+          <div class="why-point">
+            <div class="why-num">01</div>
+            <div class="why-point-body">
+              <h4>Especialización en PYMES</h4>
+              <p>Conocemos los desafíos reales de las medianas y pequeñas empresas. Nuestras soluciones están calibradas para tu escala y sector específico.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="why-num">02</div>
+            <div class="why-point-body">
+              <h4>Equipo Certificado y Actualizado</h4>
+              <p>Contadores públicos certificados con formación continua en NIIF, normativas locales y herramientas de análisis financiero moderno.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="why-num">03</div>
+            <div class="why-point-body">
+              <h4>Tecnología y Automatización</h4>
+              <p>Integramos soluciones digitales y plantillas avanzadas que reducen el trabajo manual y eliminan errores en tus procesos financieros.</p>
+            </div>
+          </div>
+          <div class="why-point">
+            <div class="why-num">04</div>
+            <div class="why-point-body">
+              <h4>Acompañamiento Continuo</h4>
+              <p>No desaparecemos tras la entrega. Ofrecemos soporte permanente, seguimiento mensual y ajuste de estrategias según tu evolución.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ TESTIMONIOS -->
+<section id="testimonios" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Testimonios</span>
+      <h2 class="section-title">Lo que dicen nuestros<br>clientes</h2>
+      <p class="section-subtitle">Más de 200 PYMES confían en nosotros para gestionar sus finanzas con precisión.</p>
+    </div>
+    <div class="testimonios-grid">
+
+      <div class="testimonio-card">
+        <div class="testimonio-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonio-text">"InveriQOptions transformó completamente nuestra gestión contable. Pasamos de tener caos en los registros a tener claridad total en nuestras finanzas. El equipo es profesional, rápido y siempre disponible."</p>
+        <div class="testimonio-author">
+          <div class="testimonio-avatar">MR</div>
+          <div>
+            <div class="testimonio-name">María Rodríguez</div>
+            <div class="testimonio-role">CEO · Distribuidora El Rayo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonio-card">
+        <div class="testimonio-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonio-text">"Las plantillas Excel que nos proporcionaron son increíbles. Ahora podemos ver en tiempo real el estado de nuestros proyectos y tomar decisiones mucho más rápido. Totalmente recomendados."</p>
+        <div class="testimonio-author">
+          <div class="testimonio-avatar">JM</div>
+          <div>
+            <div class="testimonio-name">Jorge Medina</div>
+            <div class="testimonio-role">Director · Constructora JM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonio-card">
+        <div class="testimonio-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="testimonio-text">"Gracias a su asesoría financiera logramos reducir nuestros costos operativos en un 23% en solo 6 meses. Su conocimiento del sector y su compromiso con los resultados son excepcionales."</p>
+        <div class="testimonio-author">
+          <div class="testimonio-avatar">LC</div>
+          <div>
+            <div class="testimonio-name">Laura Castro</div>
+            <div class="testimonio-role">Fundadora · Café Artesanal Luna</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ BLOG -->
+<section id="blog" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Blog & Recursos</span>
+      <h2 class="section-title">Conocimiento financiero<br>al servicio de tu empresa</h2>
+      <p class="section-subtitle">Artículos, guías y recursos prácticos para que tomes mejores decisiones financieras.</p>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-thumb t1"><div class="blog-thumb-icon"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div></div>
+        <div class="blog-body">
+          <div class="blog-cat">Finanzas</div>
+          <h3 class="blog-title">5 indicadores financieros clave que toda PYME debe monitorear</h3>
+          <p class="blog-excerpt">Aprende a leer tu negocio a través de los ratios de liquidez, rentabilidad y endeudamiento más importantes.</p>
+          <div class="blog-meta"><span>12 Mar 2025</span><span>·</span><span>5 min lectura</span></div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-thumb t2"><div class="blog-thumb-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div></div>
+        <div class="blog-body">
+          <div class="blog-cat">Herramientas</div>
+          <h3 class="blog-title">Cómo construir un presupuesto anual efectivo en Excel</h3>
+          <p class="blog-excerpt">Guía paso a paso para crear un modelo presupuestario robusto que te permita anticipar escenarios y controlar gastos.</p>
+          <div class="blog-meta"><span>28 Feb 2025</span><span>·</span><span>7 min lectura</span></div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-thumb t3"><div class="blog-thumb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div></div>
+        <div class="blog-body">
+          <div class="blog-cat">Tributario</div>
+          <h3 class="blog-title">Obligaciones fiscales 2025: lo que tu empresa no puede ignorar</h3>
+          <p class="blog-excerpt">Resumen actualizado de plazos, reformas tributarias y estrategias legales de optimización fiscal para el presente año.</p>
+          <div class="blog-meta"><span>15 Ene 2025</span><span>·</span><span>6 min lectura</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ FAQ -->
+<section id="faq" class="section">
+  <div class="container">
+    <div class="faq-layout">
+      <div class="faq-intro">
+        <span class="section-tag">Preguntas frecuentes</span>
+        <h2 class="section-title">¿Tienes dudas?<br>Aquí las resolvemos</h2>
+        <p class="section-subtitle">Estas son las preguntas que más nos hacen nuestros clientes antes de comenzar.</p>
+        <div class="faq-cta-box">
+          <h4>¿No encuentras tu respuesta?</h4>
+          <p>Nuestro equipo está disponible para resolver cualquier consulta personalizada.</p>
+          <a href="#contacto" class="btn btn-primary">Hablar con un asesor</a>
+        </div>
+      </div>
+      <div class="faq-list" id="faqList">
+
+        <div class="faq-item open">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            ¿Qué tipo de empresas atienden?
+            <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </div>
+          <div class="faq-answer"><div class="faq-answer-inner">Atendemos principalmente PYMES de todos los sectores: comercio, servicios, construcción, salud, tecnología y manufactura. Nos adaptamos a empresas desde su etapa inicial hasta organizaciones con operaciones complejas.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            ¿Cómo funciona la consultoría inicial gratuita?
+            <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </div>
+          <div class="faq-answer"><div class="faq-answer-inner">Agendas una reunión de 45 minutos (presencial o virtual) con uno de nuestros asesores. Analizamos el estado actual de tu empresa, identificamos oportunidades de mejora y te presentamos un diagnóstico sin costo ni compromiso.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            ¿Las plantillas Excel funcionan con cualquier versión de Office?
+            <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </div>
+          <div class="faq-answer"><div class="faq-answer-inner">Sí, nuestras plantillas son compatibles con Excel 2016 en adelante y también con Microsoft 365. También ofrecemos versiones adaptadas para Google Sheets bajo solicitud.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            ¿Pueden encargarse de mi contabilidad de forma remota?
+            <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </div>
+          <div class="faq-answer"><div class="faq-answer-inner">Totalmente. Trabajamos con clientes en toda la región de forma 100% remota. Utilizamos plataformas seguras para compartir documentos y realizamos reuniones virtuales periódicas para mantenerte al tanto de todo.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            ¿Puedo cambiar de plan en cualquier momento?
+            <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </div>
+          <div class="faq-answer"><div class="faq-answer-inner">Sí, puedes actualizar o cambiar tu plan en cualquier momento. Los cambios aplican desde el siguiente ciclo de facturación. No hay contratos a largo plazo ni penalidades por cancelación.</div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ CTA -->
+<section id="cta">
+  <div class="container">
+    <h2>¿Listo para llevar las finanzas<br>de tu empresa al siguiente nivel?</h2>
+    <p>Una consultoría inicial sin costo. Diagnóstico real, plan de acción concreto.</p>
+    <div class="cta-actions">
+      <a href="#contacto" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Agendar consultoría gratuita
+      </a>
+      <a href="#servicios" class="btn btn-outline">Explorar servicios</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ CONTACTO -->
+<section id="contacto" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Contacto</span>
+      <h2 class="section-title">Hablemos de tu empresa</h2>
+      <p class="section-subtitle">Completa el formulario y un asesor se comunicará contigo en menos de 24 horas.</p>
+    </div>
+    <div class="contact-layout">
+      <div class="contact-info">
+        <h3>Estamos para ayudarte</h3>
+        <p>Atendemos empresas en toda la región. Consultas presenciales, virtuales o telefónicas según tu preferencia.</p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <div class="contact-item-body"><div class="label">Teléfono</div><div class="value">55 2685 5030</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="contact-item-body"><div class="label">Correo</div><div class="value">info@inveriqoptions.com</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div class="contact-item-body"><div class="label">Oficina</div><div class="value">Av. Independencia 400, Torre Empresarial, Piso 8, Santo Domingo</div></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="contact-item-body"><div class="label">Horario</div><div class="value">Lun–Vie: 8:00 AM – 6:00 PM</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre completo *</label>
+              <input type="text" id="nombre" placeholder="Ej. Ana García" required />
+            </div>
+            <div class="form-group">
+              <label for="empresa">Empresa</label>
+              <input type="text" id="empresa" placeholder="Nombre de tu empresa" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Correo electrónico *</label>
+              <input type="email" id="email" placeholder="tu@empresa.com" required />
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" placeholder="55 3959 5584" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="servicio">Servicio de interés *</label>
+            <select id="servicio" required>
+              <option value="" disabled selected>Selecciona un servicio</option>
+              <option>Consultoría Contable</option>
+              <option>Asesoría Financiera</option>
+              <option>Plantillas Excel Pro</option>
+              <option>Otro / Consulta general</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Cuéntanos sobre tu empresa *</label>
+            <textarea id="mensaje" placeholder="Describe brevemente tu empresa y qué necesitas..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">
+            <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" fill="none" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Enviar mensaje
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <img src="images/logo.png.png" alt="InveriQOptions" class="logo-img" style="max-width:130px;" />
+        </a>
+        <p>Firma especializada en consultoría contable, asesoría financiera y herramientas de gestión para PYMES. Tu éxito es nuestra misión.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" class="social-btn" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="https://wa.me/525539595584" class="social-btn" aria-label="WhatsApp" target="_blank"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Servicios</h5>
+        <ul class="footer-links">
+          <li><a href="#servicios">Consultoría Contable</a></li>
+          <li><a href="#servicios">Asesoría Financiera</a></li>
+          <li><a href="#servicios">Plantillas Excel Pro</a></li>
+          <li><a href="#blog">Blog de Recursos</a></li>
+          <li><a href="#contacto">Consultoría Gratuita</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Empresa</h5>
+        <ul class="footer-links">
+          <li><a href="#nosotros">Quiénes somos</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#precios">Planes y precios</a></li>
+          <li><a href="#faq">Preguntas frecuentes</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contacto</h5>
+        <ul class="footer-contact-list">
+          <li><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.56-.56a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><span>55 2685 5030</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>info@inveriqoptions.com</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Av. Independencia 400, Torre Empresarial, Piso 8</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 InveriQOptions. Todos los derechos reservados.</span>
+      <span>Diseñado para <a href="#">PYMES que crecen</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════ BOTONES FLOTANTES -->
+<div class="float-buttons">
+  <a id="whatsappBtn" href="https://wa.me/525539595584?text=Hola%2C%20me%20interesa%20una%20consultor%C3%ADa%20con%20InveriQOptions" target="_blank" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span>Escríbenos</span>
+  </a>
+  <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+</div>
+
+<script>
+  // ── Navbar scroll + sección activa ──────────────────────────────
+  const navbar   = document.getElementById('navbar');
+  const scrollBtn = document.getElementById('scrollTop');
+  const sections  = document.querySelectorAll('section[id]');
+  const navLinks  = document.querySelectorAll('.nav-links a[data-section]');
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    navbar.classList.toggle('scrolled', y > 50);
+    scrollBtn.classList.toggle('visible', y > 400);
+
+    // Resaltar enlace activo
+    let current = '';
+    sections.forEach(sec => {
+      if (y >= sec.offsetTop - 120) current = sec.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.dataset.section === current);
+    });
+  });
+  if (window.scrollY > 50) navbar.classList.add('scrolled');
+
+  // ── Menú móvil (hamburger → X) ──────────────────────────────────
+  function toggleMenu() {
+    const ham  = document.getElementById('hamburger');
+    const menu = document.getElementById('navLinks');
+    ham.classList.toggle('open');
+    menu.classList.toggle('open');
+  }
+  document.querySelectorAll('#navLinks a').forEach(link =>
+    link.addEventListener('click', () => {
+      document.getElementById('hamburger').classList.remove('open');
+      document.getElementById('navLinks').classList.remove('open');
+    })
+  );
+
+  // ── Contador animado ────────────────────────────────────────────
+  function animateCounter(el) {
+    const target = +el.dataset.target;
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const start = performance.now();
+    function step(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(ease * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  let countersStarted = false;
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !countersStarted) {
+        countersStarted = true;
+        document.querySelectorAll('.stat-num[data-target]').forEach(animateCounter);
+      }
+    });
+  }, { threshold: 0.5 });
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) counterObserver.observe(heroStats);
+
+  // ── Barras de progreso animadas ─────────────────────────────────
+  const barObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.mini-bar-fill[data-width]').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+        barObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  const whyCard = document.querySelector('.why-card-main');
+  if (whyCard) barObserver.observe(whyCard);
+
+  // ── FAQ acordeón ────────────────────────────────────────────────
+  function toggleFaq(questionEl) {
+    const item = questionEl.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── Formulario ──────────────────────────────────────────────────
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    const original = btn.innerHTML;
+    btn.textContent = '¡Mensaje enviado correctamente!';
+    btn.style.background = '#2a7a4f';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.disabled = false;
+      e.target.reset();
+    }, 3500);
+  }
+
+  // ── Animación de entrada al scroll ──────────────────────────────
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll(
+    '.service-card, .why-point, .blog-card, .contact-item, .testimonio-card, .pricing-card, .faq-item'
+  ).forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    fadeObserver.observe(el);
+  });
+</script>
+</body>
+</html>
