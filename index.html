@@ -226,6 +226,74 @@
     .why-point-body h4 { font-weight: 600; font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
     .why-point-body p { font-size: .9rem; color: var(--gray-600); }
 
+    /* ════ ALIADO ════ */
+    #aliado { background: var(--navy); }
+    #aliado .section-tag { color: var(--gold-light); }
+    #aliado .section-title { color: var(--white); }
+    #aliado .section-subtitle { color: rgba(255,255,255,.65); max-width: 680px; }
+
+    .aliado-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 60px; }
+    .aliado-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.25);
+      border-radius: 12px; padding: 32px 28px; transition: var(--transition);
+    }
+    .aliado-card:hover { background: rgba(255,255,255,.09); border-color: var(--gold); transform: translateY(-4px); }
+    .aliado-card-tag {
+      font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .aliado-card h4 {
+      font-family: 'Playfair Display', serif; font-size: 1.15rem;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .aliado-card ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .aliado-card ul li { display: flex; align-items: flex-start; gap: 10px; font-size: .88rem; color: rgba(255,255,255,.7); }
+    .aliado-card ul li::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+
+    .aliado-bridge-title {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem;
+      color: var(--white); margin-bottom: 24px;
+    }
+    .aliado-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; position: relative; }
+    .aliado-steps::before {
+      content: ''; position: absolute; top: 28px; left: calc(16.6% + 14px); right: calc(16.6% + 14px);
+      height: 1px; background: linear-gradient(90deg, var(--gold), rgba(201,168,76,.3), var(--gold));
+      pointer-events: none;
+    }
+    .aliado-step {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; padding: 32px 28px; transition: var(--transition);
+    }
+    .aliado-step:hover { border-color: rgba(201,168,76,.4); background: rgba(255,255,255,.07); }
+    .aliado-step-num {
+      width: 42px; height: 42px; border-radius: 50%; background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700;
+      color: var(--navy); margin-bottom: 18px; flex-shrink: 0;
+    }
+    .aliado-step h5 { font-size: .97rem; font-weight: 600; color: var(--white); margin-bottom: 14px; }
+    .aliado-step ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .aliado-step ul li { font-size: .86rem; color: rgba(255,255,255,.65); display: flex; gap: 8px; align-items: flex-start; }
+    .aliado-step ul li::before { content: '→'; color: var(--gold); font-size: .8rem; margin-top: 1px; flex-shrink: 0; }
+
+    .aliado-disclosure {
+      margin-top: 36px; padding: 20px 24px;
+      background: rgba(255,255,255,.05); border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0; font-size: .86rem; color: rgba(255,255,255,.6); line-height: 1.7;
+    }
+    .aliado-disclosure strong { color: var(--gold-light); }
+    .aliado-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 36px; }
+    .btn-outline-gold { background: transparent; color: var(--gold); border: 2px solid var(--gold); }
+    .btn-outline-gold:hover { background: var(--gold); color: var(--navy); }
+
+    @media (max-width: 1024px) {
+      .aliado-grid, .aliado-steps { grid-template-columns: 1fr 1fr; }
+      .aliado-steps::before { display: none; }
+    }
+    @media (max-width: 768px) {
+      .aliado-grid, .aliado-steps { grid-template-columns: 1fr; }
+    }
+
     /* ════ TESTIMONIOS ════ */
     #testimonios { background: var(--white); }
     .testimonios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
@@ -417,6 +485,204 @@
       .contact-form { padding: 28px; }
       .float-buttons { bottom: 20px; right: 20px; }
     }
+
+    /* ════ COOKIE BANNER ════ */
+    #cookieBanner {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+      background: var(--navy);
+      border-top: 1px solid rgba(201,168,76,.30);
+      box-shadow: 0 -8px 40px rgba(0,0,0,.35);
+      padding: 22px 0;
+      transform: translateY(100%);
+      transition: transform .45s cubic-bezier(.4,0,.2,1);
+    }
+    #cookieBanner.visible { transform: translateY(0); }
+    .cookie-inner {
+      display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    }
+    .cookie-icon-wrap {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      background: rgba(201,168,76,.12);
+      border: 1px solid rgba(201,168,76,.3);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cookie-icon-wrap svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.6; }
+    .cookie-text { flex: 1; min-width: 220px; }
+    .cookie-text strong {
+      display: block; font-size: .93rem; font-weight: 600;
+      color: var(--white); margin-bottom: 4px; letter-spacing: .01em;
+    }
+    .cookie-text p {
+      font-size: .82rem; color: rgba(255,255,255,.58); line-height: 1.55; margin: 0;
+    }
+    .cookie-text p a {
+      color: var(--gold-light); text-decoration: underline;
+      text-underline-offset: 2px; transition: color var(--transition);
+    }
+    .cookie-text p a:hover { color: var(--gold); }
+    .cookie-actions {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex-shrink: 0;
+    }
+    .cookie-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 22px; border-radius: 6px;
+      font-size: .85rem; font-weight: 600; cursor: pointer;
+      border: none; transition: var(--transition); white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+    .cookie-btn-accept { background: var(--gold); color: var(--navy); }
+    .cookie-btn-accept:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(201,168,76,.35); }
+    .cookie-btn-essential { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
+    .cookie-btn-essential:hover { background: rgba(201,168,76,.1); transform: translateY(-1px); }
+    .cookie-btn-customize {
+      background: none; border: none; color: rgba(255,255,255,.45);
+      font-size: .8rem; font-weight: 500; cursor: pointer;
+      font-family: 'Inter', sans-serif; padding: 4px 6px;
+      text-decoration: underline; text-underline-offset: 2px;
+      transition: color var(--transition);
+    }
+    .cookie-btn-customize:hover { color: var(--gold-light); }
+
+    /* ════ COOKIE MODAL ════ */
+    #cookieModal {
+      position: fixed; inset: 0; z-index: 10000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    #cookieModal.visible { opacity: 1; pointer-events: all; }
+    .cookie-overlay {
+      position: absolute; inset: 0;
+      background: rgba(6,14,28,.78);
+      backdrop-filter: blur(4px);
+    }
+    .cookie-modal-box {
+      position: relative; z-index: 1;
+      background: var(--navy);
+      border: 1px solid rgba(201,168,76,.22);
+      border-radius: 16px;
+      width: 100%; max-width: 560px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.5);
+      overflow: hidden;
+      transform: translateY(16px) scale(.98);
+      transition: transform .3s cubic-bezier(.4,0,.2,1);
+    }
+    #cookieModal.visible .cookie-modal-box { transform: translateY(0) scale(1); }
+    .cookie-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .cookie-modal-header-left { display: flex; align-items: center; gap: 14px; }
+    .cookie-modal-header-icon {
+      width: 40px; height: 40px; border-radius: 9px;
+      background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.28);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .cookie-modal-header-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.6; }
+    .cookie-modal-header h3 {
+      font-family: 'Playfair Display', serif; font-size: 1.2rem;
+      color: var(--white); margin: 0; line-height: 1.2;
+    }
+    .cookie-modal-header p { font-size: .75rem; color: rgba(255,255,255,.4); margin: 3px 0 0; }
+    .cookie-modal-close {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(255,255,255,.06); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition); flex-shrink: 0;
+    }
+    .cookie-modal-close:hover { background: rgba(255,255,255,.12); }
+    .cookie-modal-close svg { width: 14px; height: 14px; stroke: rgba(255,255,255,.6); fill: none; stroke-width: 2.5; }
+
+    .cookie-modal-body { padding: 24px 32px; display: flex; flex-direction: column; gap: 12px; }
+
+    .cookie-cat {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px; padding: 18px 20px;
+      display: flex; align-items: flex-start; gap: 16px;
+      transition: border-color var(--transition);
+    }
+    .cookie-cat:hover { border-color: rgba(201,168,76,.2); }
+    .cookie-cat-info { flex: 1; }
+    .cookie-cat-info h4 {
+      font-size: .9rem; font-weight: 600; color: var(--white); margin: 0 0 5px;
+    }
+    .cookie-cat-info p { font-size: .8rem; color: rgba(255,255,255,.45); margin: 0; line-height: 1.5; }
+    .cookie-cat-badge {
+      font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      background: rgba(201,168,76,.15); color: var(--gold);
+      border-radius: 50px; padding: 3px 10px; margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* Toggle switch */
+    .cookie-toggle { position: relative; flex-shrink: 0; margin-top: 2px; }
+    .cookie-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .cookie-toggle-track {
+      display: block; width: 44px; height: 24px; border-radius: 50px;
+      background: rgba(255,255,255,.12); cursor: pointer;
+      transition: background .25s ease; position: relative;
+    }
+    .cookie-toggle input:checked ~ .cookie-toggle-track { background: var(--gold); }
+    .cookie-toggle input:disabled ~ .cookie-toggle-track { cursor: not-allowed; opacity: .55; }
+    .cookie-toggle-track::after {
+      content: ''; position: absolute;
+      top: 3px; left: 3px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,.25);
+      transition: transform .25s cubic-bezier(.4,0,.2,1);
+    }
+    .cookie-toggle input:checked ~ .cookie-toggle-track::after { transform: translateX(20px); }
+
+    .cookie-modal-footer {
+      padding: 20px 32px 28px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;
+    }
+    .cookie-btn-save {
+      background: var(--gold); color: var(--navy);
+      padding: 11px 26px; border-radius: 6px;
+      font-size: .88rem; font-weight: 700; cursor: pointer;
+      border: none; font-family: 'Inter', sans-serif;
+      transition: var(--transition);
+    }
+    .cookie-btn-save:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(201,168,76,.3); }
+    .cookie-btn-all-modal {
+      background: transparent; color: rgba(255,255,255,.55);
+      padding: 11px 20px; border-radius: 6px;
+      font-size: .85rem; font-weight: 500; cursor: pointer;
+      border: 1.5px solid rgba(255,255,255,.15); font-family: 'Inter', sans-serif;
+      transition: var(--transition);
+    }
+    .cookie-btn-all-modal:hover { border-color: rgba(255,255,255,.35); color: var(--white); }
+
+    /* Notificación de guardado */
+    #cookieToast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+      z-index: 11000;
+      background: #1a4d2e; border: 1px solid rgba(74,222,128,.3);
+      color: #fff; border-radius: 8px; padding: 12px 22px;
+      font-size: .84rem; font-weight: 500;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3);
+      transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+      opacity: 0; white-space: nowrap;
+    }
+    #cookieToast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    #cookieToast svg { width: 16px; height: 16px; stroke: #4ade80; fill: none; stroke-width: 2.5; }
+
+    @media (max-width: 768px) {
+      .cookie-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .cookie-actions { width: 100%; }
+      .cookie-btn { flex: 1; justify-content: center; }
+      .cookie-btn-customize { width: 100%; text-align: center; }
+      .cookie-modal-header, .cookie-modal-body, .cookie-modal-footer { padding-left: 20px; padding-right: 20px; }
+      .cookie-modal-footer { justify-content: stretch; }
+      .cookie-btn-save, .cookie-btn-all-modal { flex: 1; text-align: center; justify-content: center; }
+    }
   </style>
 </head>
 <body>
@@ -433,6 +699,7 @@
         <li><a href="#servicios"  data-section="servicios">Servicios</a></li>
         <li><a href="#precios"    data-section="precios">Precios</a></li>
         <li><a href="#nosotros"   data-section="nosotros">Nosotros</a></li>
+        <li><a href="#aliado"     data-section="aliado">AMIB</a></li>
         <li><a href="#blog"       data-section="blog">Blog</a></li>
         <li><a href="#contacto"   data-section="contacto" class="btn btn-primary">Contacto</a></li>
       </ul>
@@ -672,6 +939,102 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ ALIADO -->
+<section id="aliado" class="section">
+  <div class="container">
+
+    <div class="section-header">
+      <span class="section-tag">Marco regulatorio</span>
+      <h2 class="section-title" style="color:var(--white)">Aliado regulado: Asesoría<br>con AMIB (Figura 3)</h2>
+      <p class="section-subtitle">InverIQ te educa y te da herramientas. Para asesoría personalizada y servicio asesorado, trabajamos con un aliado con credencial AMIB.</p>
+    </div>
+
+    <!-- Tres actores -->
+    <div class="aliado-grid">
+
+      <div class="aliado-card">
+        <div class="aliado-card-tag">Education · Research · Tools</div>
+        <h4>InverIQ</h4>
+        <ul>
+          <li>Contenido educativo</li>
+          <li>Research general</li>
+          <li>Herramientas y acompañamiento operativo</li>
+        </ul>
+      </div>
+
+      <div class="aliado-card">
+        <div class="aliado-card-tag">AMIB Figura 3 · Asesoría</div>
+        <h4>Don Alejandro (Aliado)</h4>
+        <ul>
+          <li>Asesoría personalizada</li>
+          <li>Perfilamiento (suitability)</li>
+          <li>Documentación y expediente</li>
+        </ul>
+      </div>
+
+      <div class="aliado-card">
+        <div class="aliado-card-tag">Cuenta a tu nombre</div>
+        <h4>Actinver / Bursanet</h4>
+        <ul>
+          <li>Tu cuenta está a tu nombre</li>
+          <li>Tú mantienes control de tu dinero</li>
+          <li>Tú decides y ejecutas (modelo inicial)</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Flujo Bridge -->
+    <h3 class="aliado-bridge-title">Cómo funciona el Bridge</h3>
+    <div class="aliado-steps">
+
+      <div class="aliado-step">
+        <div class="aliado-step-num">1</div>
+        <h5>InverIQ (pre-onboarding)</h5>
+        <ul>
+          <li>Diagnóstico educativo (objetivos generales e horizonte)</li>
+          <li>Explicación de productos, mercado y plataforma</li>
+          <li>Apoyo para apertura y uso de cuenta (sin recomendación personalizada)</li>
+        </ul>
+      </div>
+
+      <div class="aliado-step">
+        <div class="aliado-step-num">2</div>
+        <h5>Handoff a Aliado AMIB</h5>
+        <ul>
+          <li>Presentación formal del aliado</li>
+          <li>Perfilamiento y documentación</li>
+          <li>Recomendación personalizada si aplica</li>
+        </ul>
+      </div>
+
+      <div class="aliado-step">
+        <div class="aliado-step-num">3</div>
+        <h5>Ejecución</h5>
+        <ul>
+          <li>El cliente ejecuta en su cuenta</li>
+          <li>InverIQ acompaña en uso de plataforma</li>
+          <li>El aliado acompaña desde la asesoría</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Disclosure -->
+    <div class="aliado-disclosure">
+      <strong>Disclosure:</strong> InverIQ Options ofrece contenidos educativos, research general y herramientas.
+      La asesoría personalizada es brindada por un tercero aliado con credencial AMIB. InverIQ puede recibir una
+      compensación por referir clientes. La decisión final de inversión es del cliente.
+    </div>
+
+    <div class="aliado-actions">
+      <a href="#contacto" class="btn btn-primary">Agendar llamada</a>
+      <a href="#servicios" class="btn btn-outline-gold">Ver servicios</a>
+    </div>
+
   </div>
 </section>
 
@@ -988,6 +1351,100 @@
   </div>
 </footer>
 
+<!-- ══════════════════════════════════════ COOKIE BANNER -->
+<div id="cookieBanner" role="region" aria-label="Aviso de cookies">
+  <div class="container">
+    <div class="cookie-inner">
+      <div class="cookie-icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.5 12a.5.5 0 110-1 .5.5 0 010 1zM12 8.5a.5.5 0 110-1 .5.5 0 010 1zM15.5 13.5a.5.5 0 110-1 .5.5 0 010 1z"/><path d="M21 12a9 9 0 01-9 9 9 9 0 010-18c0 1.1.9 2 2 2s2 .9 2 2 .9 2 2 2 2 .9 2 2z"/></svg>
+      </div>
+      <div class="cookie-text">
+        <strong>Este sitio utiliza cookies</strong>
+        <p>Usamos cookies para mejorar tu experiencia, analizar el tráfico y personalizar contenido. Puedes gestionar tus preferencias en cualquier momento. Consulta nuestra <a href="#">Política de Privacidad</a>.</p>
+      </div>
+      <div class="cookie-actions">
+        <button class="cookie-btn cookie-btn-accept" onclick="cookieAcceptAll()">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Aceptar todas
+        </button>
+        <button class="cookie-btn cookie-btn-essential" onclick="cookieEssentialOnly()">Solo esenciales</button>
+        <button class="cookie-btn-customize" onclick="cookieOpenModal()">Personalizar preferencias</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ COOKIE MODAL -->
+<div id="cookieModal" role="dialog" aria-modal="true" aria-labelledby="cookieModalTitle">
+  <div class="cookie-overlay" onclick="cookieCloseModal()"></div>
+  <div class="cookie-modal-box">
+    <div class="cookie-modal-header">
+      <div class="cookie-modal-header-left">
+        <div class="cookie-modal-header-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <h3 id="cookieModalTitle">Centro de Privacidad</h3>
+          <p>InveriQOptions · Gestión de cookies</p>
+        </div>
+      </div>
+      <button class="cookie-modal-close" onclick="cookieCloseModal()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="cookie-modal-body">
+
+      <div class="cookie-cat">
+        <div class="cookie-cat-info">
+          <h4>Cookies esenciales <span class="cookie-cat-badge">Siempre activas</span></h4>
+          <p>Necesarias para el correcto funcionamiento del sitio. Incluyen sesión, seguridad y preferencias básicas. No pueden desactivarse.</p>
+        </div>
+        <label class="cookie-toggle" aria-label="Cookies esenciales">
+          <input type="checkbox" id="toggleEssential" checked disabled />
+          <span class="cookie-toggle-track"></span>
+        </label>
+      </div>
+
+      <div class="cookie-cat">
+        <div class="cookie-cat-info">
+          <h4>Cookies analíticas</h4>
+          <p>Nos permiten medir el tráfico, entender cómo se usa el sitio y mejorar la experiencia del usuario. Datos anónimos y agregados.</p>
+        </div>
+        <label class="cookie-toggle" aria-label="Cookies analíticas">
+          <input type="checkbox" id="toggleAnalytics" />
+          <span class="cookie-toggle-track"></span>
+        </label>
+      </div>
+
+      <div class="cookie-cat">
+        <div class="cookie-cat-info">
+          <h4>Cookies de marketing</h4>
+          <p>Utilizadas para mostrar anuncios relevantes y medir la efectividad de campañas. Pueden ser compartidas con socios publicitarios.</p>
+        </div>
+        <label class="cookie-toggle" aria-label="Cookies de marketing">
+          <input type="checkbox" id="toggleMarketing" />
+          <span class="cookie-toggle-track"></span>
+        </label>
+      </div>
+
+    </div>
+
+    <div class="cookie-modal-footer">
+      <button class="cookie-btn-all-modal" onclick="cookieAcceptAllFromModal()">Aceptar todas</button>
+      <button class="cookie-btn-save" onclick="cookieSavePreferences()">
+        Guardar preferencias
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast de confirmación -->
+<div id="cookieToast">
+  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  Preferencias guardadas correctamente
+</div>
+
 <!-- ══════════════════════════════════════ BOTONES FLOTANTES -->
 <div class="float-buttons">
   <a id="whatsappBtn" href="https://wa.me/525539595584?text=Hola%2C%20me%20interesa%20una%20consultor%C3%ADa%20con%20InveriQOptions" target="_blank" aria-label="WhatsApp">
@@ -1121,6 +1578,85 @@
     el.style.transition = 'opacity .5s ease, transform .5s ease';
     fadeObserver.observe(el);
   });
+
+  // ── Sistema de Cookies ───────────────────────────────────────────
+  (function () {
+    const STORAGE_KEY = 'iq_cookie_consent';
+    const banner      = document.getElementById('cookieBanner');
+    const modal       = document.getElementById('cookieModal');
+    const toast       = document.getElementById('cookieToast');
+
+    function getConsent() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return null; }
+    }
+    function saveConsent(data) {
+      data.date = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+    function hideBanner() {
+      banner.classList.remove('visible');
+    }
+    function showToast() {
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    function syncToggles(consent) {
+      if (!consent) return;
+      document.getElementById('toggleAnalytics').checked  = !!consent.analytics;
+      document.getElementById('toggleMarketing').checked  = !!consent.marketing;
+    }
+
+    // Init: mostrar banner solo si no hay decisión previa
+    window.addEventListener('load', () => {
+      if (!getConsent()) {
+        setTimeout(() => banner.classList.add('visible'), 600);
+      } else {
+        syncToggles(getConsent());
+      }
+    });
+
+    // Cerrar modal con Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.classList.contains('visible')) cookieCloseModal();
+    });
+
+    // Exponer funciones globales
+    window.cookieAcceptAll = function () {
+      saveConsent({ essential: true, analytics: true, marketing: true });
+      hideBanner();
+      showToast();
+    };
+    window.cookieEssentialOnly = function () {
+      saveConsent({ essential: true, analytics: false, marketing: false });
+      hideBanner();
+      showToast();
+    };
+    window.cookieOpenModal = function () {
+      syncToggles(getConsent());
+      modal.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    };
+    window.cookieCloseModal = function () {
+      modal.classList.remove('visible');
+      document.body.style.overflow = '';
+    };
+    window.cookieSavePreferences = function () {
+      const consent = {
+        essential : true,
+        analytics : document.getElementById('toggleAnalytics').checked,
+        marketing : document.getElementById('toggleMarketing').checked,
+      };
+      saveConsent(consent);
+      cookieCloseModal();
+      hideBanner();
+      showToast();
+    };
+    window.cookieAcceptAllFromModal = function () {
+      document.getElementById('toggleAnalytics').checked = true;
+      document.getElementById('toggleMarketing').checked = true;
+      cookieSavePreferences();
+    };
+  })();
 </script>
 </body>
 </html>
