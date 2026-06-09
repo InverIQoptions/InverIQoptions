@@ -695,6 +695,187 @@
       .cookie-btn-save, .cookie-btn-all-modal { flex: 1; text-align: center; justify-content: center; }
     }
 
+    /* ════ PERFILAMIENTO ════ */
+    #perfilamiento { background: var(--navy-mid); }
+
+    .pf-shell {
+      max-width: 720px; margin: 0 auto;
+    }
+
+    /* Barra de progreso */
+    .pf-progress-wrap {
+      margin-bottom: 36px;
+    }
+    .pf-progress-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px;
+    }
+    .pf-progress-label {
+      font-size: .78rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.45);
+    }
+    .pf-progress-count {
+      font-size: .78rem; font-weight: 700; color: var(--gold);
+    }
+    .pf-progress-track {
+      height: 4px; background: rgba(255,255,255,.1); border-radius: 4px; overflow: hidden;
+    }
+    .pf-progress-fill {
+      height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 4px; transition: width .4s cubic-bezier(.4,0,.2,1);
+      width: 0%;
+    }
+
+    /* Bloque tag */
+    .pf-block-tag {
+      display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--navy); background: var(--gold);
+      border-radius: 50px; padding: 4px 14px; margin-bottom: 18px;
+    }
+
+    /* Cuerpo de pregunta */
+    .pf-question-wrap {
+      min-height: 360px; position: relative;
+    }
+    .pf-question-slide {
+      animation: pfSlideIn .32s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes pfSlideIn {
+      from { opacity: 0; transform: translateX(28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .pf-question-slide.pf-back {
+      animation: pfSlideInBack .32s cubic-bezier(.4,0,.2,1);
+    }
+    @keyframes pfSlideInBack {
+      from { opacity: 0; transform: translateX(-28px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    .pf-q-num {
+      font-size: .75rem; font-weight: 600; color: rgba(255,255,255,.35);
+      letter-spacing: .1em; margin-bottom: 10px;
+    }
+    .pf-q-text {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--white); line-height: 1.4; margin-bottom: 28px;
+    }
+
+    /* Opciones */
+    .pf-options { display: flex; flex-direction: column; gap: 10px; }
+    .pf-option {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 18px; border-radius: 10px;
+      border: 1.5px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.04);
+      cursor: pointer; transition: all .2s ease;
+      text-align: left; width: 100%;
+      font-family: 'Inter', sans-serif;
+    }
+    .pf-option:hover {
+      border-color: rgba(201,168,76,.5); background: rgba(201,168,76,.07);
+    }
+    .pf-option.selected {
+      border-color: var(--gold); background: rgba(201,168,76,.14);
+    }
+    .pf-option-dot {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700; color: rgba(255,255,255,.4);
+      transition: all .2s ease;
+    }
+    .pf-option.selected .pf-option-dot {
+      background: var(--gold); border-color: var(--gold); color: var(--navy);
+    }
+    .pf-option-text {
+      font-size: .9rem; color: rgba(255,255,255,.7); line-height: 1.4;
+      transition: color .2s;
+    }
+    .pf-option.selected .pf-option-text { color: var(--white); font-weight: 500; }
+
+    /* Navegación */
+    .pf-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 28px; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+    .pf-btn-back {
+      display: flex; align-items: center; gap: 6px;
+      background: none; border: 1.5px solid rgba(255,255,255,.15);
+      border-radius: 7px; padding: 9px 18px;
+      color: rgba(255,255,255,.5); font-family: 'Inter', sans-serif;
+      font-size: .84rem; font-weight: 500; cursor: pointer;
+      transition: var(--transition);
+    }
+    .pf-btn-back:hover { border-color: rgba(255,255,255,.35); color: var(--white); }
+    .pf-btn-back:disabled { opacity: .25; cursor: not-allowed; }
+    .pf-btn-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+    .pf-hint {
+      font-size: .78rem; color: rgba(255,255,255,.3); font-style: italic;
+    }
+
+    /* Pantalla de resultado */
+    .pf-result {
+      text-align: center; padding: 20px 0 10px;
+      animation: pfSlideIn .4s cubic-bezier(.4,0,.2,1);
+    }
+    .pf-result-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,168,76,.15); border: 1px solid rgba(201,168,76,.4);
+      border-radius: 50px; padding: 7px 20px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--gold-light);
+      margin-bottom: 24px;
+    }
+    .pf-result-badge span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+    .pf-result-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--gold);
+      line-height: 1.15; margin-bottom: 8px;
+    }
+    .pf-result-score {
+      font-size: .85rem; color: rgba(255,255,255,.4); margin-bottom: 28px;
+    }
+    .pf-result-score strong { color: var(--gold-light); }
+    .pf-result-desc-box {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.2);
+      border-radius: 14px; padding: 28px 32px; margin-bottom: 32px; text-align: left;
+    }
+    .pf-result-desc-box h4 {
+      font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    .pf-result-desc-box p {
+      font-size: .93rem; color: rgba(255,255,255,.7); line-height: 1.7;
+    }
+    .pf-result-actions {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+    .pf-btn-sim {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: var(--navy);
+      padding: 13px 28px; border-radius: 8px;
+      font-family: 'Inter', sans-serif; font-size: .93rem; font-weight: 700;
+      text-decoration: none; transition: var(--transition); border: none; cursor: pointer;
+    }
+    .pf-btn-sim:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,168,76,.35); }
+    .pf-btn-restart {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: rgba(255,255,255,.55);
+      padding: 13px 24px; border-radius: 8px;
+      font-family: 'Inter', sans-serif; font-size: .88rem; font-weight: 500;
+      border: 1.5px solid rgba(255,255,255,.15); cursor: pointer;
+      transition: var(--transition);
+    }
+    .pf-btn-restart:hover { border-color: rgba(255,255,255,.35); color: var(--white); }
+    .pf-btn-restart svg, .pf-btn-sim svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+
+    @media (max-width: 640px) {
+      .pf-result-desc-box { padding: 20px; }
+    }
+
     /* ════ SIMULADOR ════ */
     .sim-shell {
       display: grid; grid-template-columns: 360px 1fr; gap: 32px; align-items: flex-start;
@@ -878,6 +1059,7 @@
         <li><a href="#nosotros"   data-section="nosotros">Nosotros</a></li>
         <li><a href="#aliado"     data-section="aliado">AMIB</a></li>
         <li><a href="#blog"       data-section="blog">Blog</a></li>
+        <li><a href="#perfilamiento" data-section="perfilamiento">Perfil</a></li>
         <li><a href="#simulador"  data-section="simulador">Simulador</a></li>
         <li><a href="#contacto"   data-section="contacto" class="btn btn-primary">Contacto</a></li>
       </ul>
@@ -1473,6 +1655,32 @@
           </button>
         </form>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ PERFILAMIENTO DE RIESGO -->
+<section id="perfilamiento" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Conoce tu perfil</span>
+      <h2 class="section-title" style="color:var(--white)">Descubre tu Perfil de Inversión</h2>
+      <p class="section-subtitle" style="color:rgba(255,255,255,.6)">
+        20 preguntas · 6 dimensiones · Resultado personalizado.<br>
+        Responde con honestidad para obtener el perfil que realmente te corresponde.
+      </p>
+    </div>
+    <div class="pf-shell">
+      <div class="pf-progress-wrap">
+        <div class="pf-progress-header">
+          <span class="pf-progress-label" id="pfBlockLabel">Bloque A</span>
+          <span class="pf-progress-count" id="pfCount">1 / 20</span>
+        </div>
+        <div class="pf-progress-track">
+          <div class="pf-progress-fill" id="pfProgressFill"></div>
+        </div>
+      </div>
+      <div class="pf-question-wrap" id="pfQuestionWrap"></div>
     </div>
   </div>
 </section>
@@ -2180,6 +2388,174 @@
       chevron.classList.toggle('open', open);
       btn.childNodes[1].textContent = open ? ' Ocultar tabla mes a mes' : ' Ver tabla mes a mes';
     };
+  })();
+
+  // ── Perfilamiento de Riesgo ──────────────────────────────────────
+  (function () {
+    const PREGUNTAS = [
+      // BLOQUE A
+      { bloque: 'A — Salud y decisiones difíciles', texto: 'Ante una decisión importante con incertidumbre, tú…',
+        opciones: ['Evito decidir / lo postergo', 'Decido solo cuando es inevitable', 'Busco 2ª opinión y decido con calma', 'Comparo opciones y decido rápido', 'Decido rápido y preparo plan B'] },
+      { bloque: 'A — Salud y decisiones difíciles', texto: 'Si una decisión mejora tu vida pero tiene riesgos, tú…',
+        opciones: ['Evito el riesgo aunque tarde más', 'Solo si el riesgo es mínimo', 'Sí si entiendo bien los escenarios', 'Sí si el upside es claro', 'Sí y me siento cómodo con la incertidumbre'] },
+      { bloque: 'A — Salud y decisiones difíciles', texto: '¿Qué tan tolerante eres a malas rachas antes de cambiar el plan?',
+        opciones: ['Muy poco tolerante', 'Poco tolerante', 'Tolerancia normal', 'Alta tolerancia', 'Muy alta tolerancia'] },
+      // BLOQUE B
+      { bloque: 'B — Carrera, movilidad y dinero', texto: '¿Qué tan dispuesto/a estás a cambiar para aumentar ingresos o crecimiento?',
+        opciones: ['Casi nunca', 'Rara vez, solo si es muy seguro', 'Ocasional cada 3–5 años', 'Frecuente cada 1–3 años con plan', 'Agresivo si hay upside, aun con incertidumbre'] },
+      { bloque: 'B — Carrera, movilidad y dinero', texto: '¿Qué tan cómodo/a eres con ingresos variables (comisiones, freelance, negocio)?',
+        opciones: ['Nada cómodo/a', 'Poco cómodo/a', 'Neutral', 'Cómodo/a', 'Muy cómodo/a'] },
+      { bloque: 'B — Carrera, movilidad y dinero', texto: '¿Renunciarías sin plan B por una gran oportunidad?',
+        opciones: ['Nunca', 'Solo con oferta firmada', 'Con colchón + plan parcial', 'Sí si el upside es claro', 'Sí, incluso si el camino está incompleto'] },
+      // BLOQUE C
+      { bloque: 'C — Experiencias, novedad y exploración', texto: '¿Con qué frecuencia buscas experiencias nuevas?',
+        opciones: ['Casi nunca', 'Rara vez', 'A veces', 'Frecuentemente', 'Siempre'] },
+      { bloque: 'C — Experiencias, novedad y exploración', texto: 'Viajar a lugares retadores (idioma / logística / contexto) te parece…',
+        opciones: ['No me interesa', 'Solo si hay plan máximo', 'Sí con plan y acompañado', 'Sí con preparación razonable', 'Sí, incluso con alta incertidumbre'] },
+      { bloque: 'C — Experiencias, novedad y exploración', texto: 'Probar cosas nuevas sin mucha preparación…',
+        opciones: ['No, definitivamente', 'Muy rara vez', 'Depende del contexto', 'Sí, normalmente', 'Sí, me encanta'] },
+      // BLOQUE D
+      { bloque: 'D — Respuesta emocional ante incertidumbre', texto: 'Si algo sale mal, mi reacción típica es…',
+        opciones: ['Me freno completamente', 'Me preocupa y reduzco exposición', 'Ajusto el plan con calma', 'Me adapto y sigo adelante', 'Acelero si entiendo el error'] },
+      { bloque: 'D — Respuesta emocional ante incertidumbre', texto: '¿Qué te pesa más?',
+        opciones: ['Perder dinero / tiempo siempre', 'Casi siempre perder dinero / tiempo', 'Depende del contexto', 'Perder la oportunidad', 'Casi siempre la oportunidad / experiencia'] },
+      { bloque: 'D — Respuesta emocional ante incertidumbre', texto: '¿Qué tan rápido te recuperas de un error?',
+        opciones: ['Muy lento', 'Lento', 'Normal', 'Rápido', 'Muy rápido'] },
+      // BLOQUE E
+      { bloque: 'E — Disciplina y barandales', texto: '¿Sigues reglas aunque estés emocionado/a o con FOMO?',
+        opciones: ['No', 'Casi nunca', 'A veces', 'Casi siempre', 'Siempre'] },
+      { bloque: 'E — Disciplina y barandales', texto: '¿Cómo te sientes con límites duros (presupuesto, checklist, reglas)?',
+        opciones: ['Los odio', 'Me cuestan mucho', 'Me adapto', 'Me ayudan', 'Los necesito y los busco'] },
+      { bloque: 'E — Disciplina y barandales', texto: '¿Delegarías ejecución a un experto si tú defines el marco y recibes reportes?',
+        opciones: ['No', 'Solo si no hay alternativa', 'Depende del experto', 'Sí, con claridad y reportes', 'Sí, prefiero enfocarme en decisiones'] },
+      // BLOQUE F
+      { bloque: 'F — Equity y mercados', texto: '¿Qué tan familiarizado/a estás con empresas públicas y modelos de negocio?',
+        opciones: ['Nada', 'Poco', 'Nivel intermedio', 'Nivel alto', 'Muy alto'] },
+      { bloque: 'F — Equity y mercados', texto: '¿Qué tanto entiendes estados financieros y métricas clave?',
+        opciones: ['Nada', 'Solo lo básico', 'Nivel intermedio', 'Nivel avanzado', 'Muy avanzado'] },
+      { bloque: 'F — Equity y mercados', texto: 'Cuando evalúas una inversión, tú normalmente…',
+        opciones: ['Me guío por tips y redes', 'Veo precio y noticias', 'Reviso algunas métricas', 'Hago tesis + escenarios', 'Hago tesis + escenarios + análisis de riesgo completo'] },
+      { bloque: 'F — Equity y mercados', texto: '¿Qué haría un asesor profesional antes de recomendarte algo?',
+        opciones: ['Solo ejecutar lo que pidas', 'Dar una opinión rápida', 'Explicar riesgos generales', 'Perfilamiento + research', 'Perfilamiento + research + cumplimiento + seguimiento'] },
+      { bloque: 'F — Equity y mercados', texto: '¿Qué tan cómodo/a estás con el proceso formal de inversión (KYC, perfilamiento, disclosures)?',
+        opciones: ['Me incomoda', 'Lo evito si puedo', 'Lo tolero', 'Me parece correcto', 'Lo prefiero: me da estructura'] },
+    ];
+
+    const PERFILES = [
+      { min: 20, max: 49, nombre: 'InverIQ Moderado',
+        desc: 'Tu perfil refleja prioridad en estabilidad y baja complejidad operativa. Te sentirás más cómodo/a con estrategias centradas en hábitos financieros sólidos, cash-flow predecible, un portafolio base diversificado y educación financiera gradual. La consistencia es tu mayor ventaja competitiva.' },
+      { min: 50, max: 74, nombre: 'InverIQ Moderado-Agresivo',
+        desc: 'Combinas riesgo calculado con disciplina de reglas. Eres capaz de analizar escenarios, mantener la cabeza fría en momentos de volatilidad y crecer con barandales claros. Tu enfoque ideal incluye análisis de tesis, sizing controlado y métricas de seguimiento mensual.' },
+      { min: 75, max: 100, nombre: 'Quetzal Supremo',
+        desc: 'Tienes alta tolerancia al riesgo y capacidad para operar con complejidad. Tu reto es protegerte de ti mismo/a: límites estrictos de sizing, procesos formales y disciplina de ejecución son lo que separa el desempeño consistente del ruido emocional. Eres candidato/a para estrategias avanzadas con estructura profesional.' },
+    ];
+
+    const LABELS_PUNTOS = ['1', '2', '3', '4', '5'];
+    let respuestas = new Array(20).fill(null);
+    let qActual    = 0;
+    let direccion  = 'forward';
+
+    function pfRender(dir) {
+      direccion = dir || 'forward';
+      const wrap = document.getElementById('pfQuestionWrap');
+      const q    = PREGUNTAS[qActual];
+      const resp = respuestas[qActual];
+
+      // Progreso
+      document.getElementById('pfProgressFill').style.width =
+        (((qActual) / 20) * 100) + '%';
+      document.getElementById('pfCount').textContent = (qActual + 1) + ' / 20';
+      document.getElementById('pfBlockLabel').textContent =
+        'Bloque ' + q.bloque.split('—')[0].trim();
+
+      const opcionesHTML = q.opciones.map((txt, i) => `
+        <button class="pf-option${resp === i + 1 ? ' selected' : ''}"
+                onclick="pfSeleccionar(${i + 1})">
+          <span class="pf-option-dot">${LABELS_PUNTOS[i]}</span>
+          <span class="pf-option-text">${txt}</span>
+        </button>
+      `).join('');
+
+      wrap.innerHTML = `
+        <div class="pf-question-slide${dir === 'back' ? ' pf-back' : ''}">
+          <div class="pf-block-tag">Bloque ${q.bloque.split('—')[0].trim()} · ${q.bloque.split('—')[1].trim()}</div>
+          <div class="pf-q-num">Pregunta ${qActual + 1} de 20</div>
+          <div class="pf-q-text">${q.texto}</div>
+          <div class="pf-options">${opcionesHTML}</div>
+          <div class="pf-nav">
+            <button class="pf-btn-back" onclick="pfAtras()" ${qActual === 0 ? 'disabled' : ''}>
+              <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+              Anterior
+            </button>
+            <span class="pf-hint">Selecciona una opción para continuar</span>
+          </div>
+        </div>
+      `;
+    }
+
+    window.pfSeleccionar = function (pts) {
+      respuestas[qActual] = pts;
+
+      // Resaltar la opción seleccionada visualmente antes de avanzar
+      const opts = document.querySelectorAll('.pf-option');
+      opts.forEach((o, i) => o.classList.toggle('selected', i + 1 === pts));
+
+      setTimeout(() => {
+        if (qActual < 19) {
+          qActual++;
+          pfRender('forward');
+        } else {
+          pfMostrarResultado();
+        }
+      }, 260);
+    };
+
+    window.pfAtras = function () {
+      if (qActual > 0) {
+        qActual--;
+        pfRender('back');
+      }
+    };
+
+    function pfMostrarResultado() {
+      const total = respuestas.reduce((s, v) => s + (v || 0), 0);
+      const perfil = PERFILES.find(p => total >= p.min && total <= p.max);
+
+      document.getElementById('pfProgressFill').style.width = '100%';
+      document.getElementById('pfCount').textContent = '20 / 20';
+      document.getElementById('pfBlockLabel').textContent = 'Completado';
+
+      document.getElementById('pfQuestionWrap').innerHTML = `
+        <div class="pf-result">
+          <div class="pf-result-badge"><span></span> Resultado de tu perfilamiento</div>
+          <div class="pf-result-name">${perfil.nombre}</div>
+          <div class="pf-result-score">Puntuación obtenida: <strong>${total} / 100</strong></div>
+          <div class="pf-result-desc-box">
+            <h4>Tu perfil de inversión</h4>
+            <p>${perfil.desc}</p>
+          </div>
+          <div class="pf-result-actions">
+            <a href="#simulador" class="pf-btn-sim">
+              <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Ir al Simulador
+            </a>
+            <button class="pf-btn-restart" onclick="pfReiniciar()">
+              <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+              Repetir perfilamiento
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    window.pfReiniciar = function () {
+      respuestas = new Array(20).fill(null);
+      qActual    = 0;
+      pfRender('forward');
+    };
+
+    // Iniciar
+    pfRender('forward');
   })();
 </script>
 </body>
