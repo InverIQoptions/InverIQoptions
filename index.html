@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>InveriQOptions | Consultoría Contable y Financiera</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -693,6 +694,172 @@
       .cookie-modal-footer { justify-content: stretch; }
       .cookie-btn-save, .cookie-btn-all-modal { flex: 1; text-align: center; justify-content: center; }
     }
+
+    /* ════ SIMULADOR ════ */
+    .sim-shell {
+      display: grid; grid-template-columns: 360px 1fr; gap: 32px; align-items: flex-start;
+    }
+    .sim-form-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.2);
+      border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; gap: 22px;
+    }
+    .sim-form-title {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--white);
+      padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .sim-form-title svg { stroke: var(--gold); flex-shrink: 0; }
+    .sim-label {
+      display: block; font-size: .8rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 8px;
+    }
+    .sim-input-wrap { position: relative; }
+    .sim-prefix {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-size: .9rem; font-weight: 600; color: var(--gold); pointer-events: none;
+    }
+    .sim-input {
+      width: 100%; padding: 11px 14px 11px 28px;
+      background: rgba(255,255,255,.07); border: 1.5px solid rgba(255,255,255,.12);
+      border-radius: 8px; color: var(--white); font-family: 'Inter', sans-serif;
+      font-size: .93rem; outline: none; transition: border-color var(--transition);
+    }
+    .sim-input:focus { border-color: var(--gold); background: rgba(201,168,76,.06); }
+    .sim-input::placeholder { color: rgba(255,255,255,.25); }
+    .sim-input::-webkit-inner-spin-button, .sim-input::-webkit-outer-spin-button { opacity: .4; }
+
+    .sim-toggle-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sim-radio-card { cursor: pointer; }
+    .sim-radio-card input { display: none; }
+    .sim-radio-face {
+      display: flex; flex-direction: column; gap: 3px;
+      padding: 12px 14px; border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04); transition: var(--transition);
+    }
+    .sim-radio-card input:checked ~ .sim-radio-face {
+      border-color: var(--gold); background: rgba(201,168,76,.1);
+    }
+    .sim-radio-name { font-size: .88rem; font-weight: 600; color: var(--white); }
+    .sim-radio-range { font-size: .73rem; color: rgba(255,255,255,.45); }
+    .sim-radio-card input:checked ~ .sim-radio-face .sim-radio-range { color: var(--gold-light); }
+
+    /* Range slider */
+    .sim-range {
+      width: 100%; -webkit-appearance: none; appearance: none;
+      height: 4px; background: rgba(255,255,255,.15); border-radius: 4px; outline: none;
+      cursor: pointer; margin: 4px 0;
+    }
+    .sim-range::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+      background: var(--gold); border: 2px solid var(--navy); cursor: pointer;
+      box-shadow: 0 2px 8px rgba(201,168,76,.4);
+    }
+    .sim-range::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--gold); border: 2px solid var(--navy); cursor: pointer;
+    }
+    .sim-range-labels {
+      display: flex; justify-content: space-between;
+      font-size: .72rem; color: rgba(255,255,255,.35); margin-top: 4px;
+    }
+
+    .sim-calc-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; padding: 13px; border-radius: 8px;
+      background: var(--gold); color: var(--navy);
+      font-family: 'Inter', sans-serif; font-size: .93rem; font-weight: 700;
+      border: none; cursor: pointer; transition: var(--transition); margin-top: 4px;
+    }
+    .sim-calc-btn:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,168,76,.35); }
+
+    /* Resultados */
+    .sim-results { display: flex; flex-direction: column; gap: 24px; }
+
+    .sim-horizon-tabs { display: flex; gap: 8px; }
+    .sim-tab {
+      padding: 9px 22px; border-radius: 6px; font-size: .85rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid rgba(201,168,76,.3);
+      background: transparent; color: rgba(255,255,255,.5);
+      font-family: 'Inter', sans-serif; transition: var(--transition);
+    }
+    .sim-tab.active { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .sim-tab:not(.active):hover { border-color: var(--gold); color: var(--gold); }
+
+    .sim-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .sim-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.18);
+      border-radius: 12px; padding: 22px 20px;
+    }
+    .sim-card.highlight {
+      background: rgba(201,168,76,.1); border-color: var(--gold);
+    }
+    .sim-card-label {
+      font-size: .7rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.45); margin-bottom: 8px;
+    }
+    .sim-card.highlight .sim-card-label { color: var(--gold-light); }
+    .sim-card-value {
+      font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+      color: var(--white); line-height: 1.1;
+    }
+    .sim-card.highlight .sim-card-value { color: var(--gold); }
+    .sim-card-sub { font-size: .75rem; color: rgba(255,255,255,.4); margin-top: 4px; }
+
+    /* Gráfica */
+    .sim-chart-wrap {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px; padding: 24px;
+    }
+    .sim-chart-title {
+      font-size: .82rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,255,255,.45); margin-bottom: 18px;
+    }
+
+    /* Tabla */
+    .sim-table-toggle {
+      display: flex; align-items: center; gap: 8px; width: 100%;
+      padding: 13px 18px; border-radius: 8px;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.65); font-family: 'Inter', sans-serif;
+      font-size: .85rem; font-weight: 600; cursor: pointer; transition: var(--transition);
+      text-align: left;
+    }
+    .sim-table-toggle:hover { border-color: rgba(201,168,76,.35); color: var(--white); }
+    .sim-chevron { margin-left: auto; transition: transform .3s ease; }
+    .sim-chevron.open { transform: rotate(180deg); }
+    .sim-table-scroll { overflow-x: auto; margin-top: 12px; }
+    .sim-table {
+      width: 100%; border-collapse: collapse; font-size: .82rem;
+      min-width: 560px;
+    }
+    .sim-table th {
+      padding: 10px 14px; text-align: right; font-size: .7rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--gold);
+      border-bottom: 1px solid rgba(201,168,76,.25); background: rgba(201,168,76,.06);
+    }
+    .sim-table th:first-child { text-align: center; }
+    .sim-table td {
+      padding: 9px 14px; text-align: right; color: rgba(255,255,255,.7);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .sim-table td:first-child { text-align: center; font-weight: 600; color: var(--gold-light); }
+    .sim-table tr:hover td { background: rgba(255,255,255,.03); }
+    .sim-table tr:last-child td { color: var(--white); font-weight: 600; }
+
+    .sim-disclaimer {
+      margin-top: 32px; font-size: .75rem; color: rgba(255,255,255,.3);
+      line-height: 1.6; border-top: 1px solid rgba(255,255,255,.06); padding-top: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .sim-shell { grid-template-columns: 1fr; }
+      .sim-cards { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .sim-cards { grid-template-columns: 1fr; }
+      .sim-horizon-tabs { flex-wrap: wrap; }
+    }
   </style>
 </head>
 <body>
@@ -711,6 +878,7 @@
         <li><a href="#nosotros"   data-section="nosotros">Nosotros</a></li>
         <li><a href="#aliado"     data-section="aliado">AMIB</a></li>
         <li><a href="#blog"       data-section="blog">Blog</a></li>
+        <li><a href="#simulador"  data-section="simulador">Simulador</a></li>
         <li><a href="#contacto"   data-section="contacto" class="btn btn-primary">Contacto</a></li>
       </ul>
       <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
@@ -1309,6 +1477,139 @@
   </div>
 </section>
 
+<!-- ══════════════════════════════════════ SIMULADOR DE INVERSIÓN -->
+<section id="simulador" class="section" style="background:var(--navy);">
+  <div class="container">
+
+    <div class="section-header">
+      <span class="section-tag">Herramienta financiera</span>
+      <h2 class="section-title" style="color:var(--white)">Simulador de Inversión</h2>
+      <p class="section-subtitle" style="color:rgba(255,255,255,.6)">
+        Proyecta el crecimiento de tu capital con nuestra calculadora profesional.<br>
+        Basada en tasas reales de mercado para perfiles moderados y agresivos.
+      </p>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="sim-shell">
+      <div class="sim-form-card">
+        <div class="sim-form-title">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          Parámetros de simulación
+        </div>
+
+        <div class="sim-field-group">
+          <label class="sim-label" for="simCapital">Capital inicial</label>
+          <div class="sim-input-wrap">
+            <span class="sim-prefix">$</span>
+            <input class="sim-input" type="number" id="simCapital" placeholder="50,000" min="0" step="1000" value="50000" />
+          </div>
+        </div>
+
+        <div class="sim-field-group">
+          <label class="sim-label" for="simAportacion">Aportación mensual</label>
+          <div class="sim-input-wrap">
+            <span class="sim-prefix">$</span>
+            <input class="sim-input" type="number" id="simAportacion" placeholder="0" min="0" step="500" value="0" />
+          </div>
+        </div>
+
+        <div class="sim-field-group">
+          <label class="sim-label">Perfil de inversión</label>
+          <div class="sim-toggle-group">
+            <label class="sim-radio-card">
+              <input type="radio" name="simPerfil" value="moderado" checked />
+              <span class="sim-radio-face">
+                <span class="sim-radio-name">Moderado</span>
+                <span class="sim-radio-range">25% – 35% anual</span>
+              </span>
+            </label>
+            <label class="sim-radio-card">
+              <input type="radio" name="simPerfil" value="agresivo" />
+              <span class="sim-radio-face">
+                <span class="sim-radio-name">Agresivo</span>
+                <span class="sim-radio-range">40% – 55% anual</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="sim-field-group">
+          <label class="sim-label">¿Activar retiros mensuales?</label>
+          <div class="sim-toggle-group">
+            <label class="sim-radio-card">
+              <input type="radio" name="simRetiros" value="no" checked />
+              <span class="sim-radio-face">
+                <span class="sim-radio-name">No</span>
+                <span class="sim-radio-range">Reinvertir todo</span>
+              </span>
+            </label>
+            <label class="sim-radio-card">
+              <input type="radio" name="simRetiros" value="si" />
+              <span class="sim-radio-face">
+                <span class="sim-radio-name">Sí</span>
+                <span class="sim-radio-range">Retirar 50% rend.</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="sim-field-group" id="simTasaRow">
+          <label class="sim-label">Tasa anual estimada: <span id="simTasaVal" style="color:var(--gold);font-weight:700">30%</span></label>
+          <input class="sim-range" type="range" id="simTasa" min="25" max="35" value="30" step="1" />
+          <div class="sim-range-labels"><span>25%</span><span>35%</span></div>
+        </div>
+
+        <button class="sim-calc-btn" onclick="simCalcular()">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Calcular proyección
+        </button>
+      </div>
+
+      <!-- RESULTADOS -->
+      <div class="sim-results" id="simResults" style="display:none">
+
+        <!-- Selector de horizonte -->
+        <div class="sim-horizon-tabs">
+          <button class="sim-tab active" onclick="simSetHorizon(1,this)">1 Año</button>
+          <button class="sim-tab" onclick="simSetHorizon(3,this)">3 Años</button>
+          <button class="sim-tab" onclick="simSetHorizon(5,this)">5 Años</button>
+        </div>
+
+        <!-- Tarjetas de resultados -->
+        <div class="sim-cards" id="simCards"></div>
+
+        <!-- Gráfica -->
+        <div class="sim-chart-wrap">
+          <div class="sim-chart-title">Curva de crecimiento del capital</div>
+          <canvas id="simChart" height="260"></canvas>
+        </div>
+
+        <!-- Tabla desplegable -->
+        <div class="sim-table-wrap">
+          <button class="sim-table-toggle" onclick="simToggleTable(this)">
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+            Ver tabla mes a mes
+            <svg class="sim-chevron" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="sim-table-body" id="simTableBody" style="display:none">
+            <div class="sim-table-scroll">
+              <table class="sim-table" id="simTable"></table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <p class="sim-disclaimer">
+      * Los rendimientos mostrados son proyecciones estimadas con fines educativos e ilustrativos. No constituyen garantía de resultado ni asesoría personalizada de inversión. Las tasas pasadas no garantizan rendimientos futuros.
+    </p>
+
+  </div>
+</section>
+
 <!-- ══════════════════════════════════════ FOOTER -->
 <footer>
   <div class="container">
@@ -1665,6 +1966,219 @@
       document.getElementById('toggleAnalytics').checked = true;
       document.getElementById('toggleMarketing').checked = true;
       cookieSavePreferences();
+    };
+  })();
+
+  // ── Simulador de Inversión ───────────────────────────────────────
+  (function () {
+    const RANGOS = {
+      moderado: { min: 0.25, max: 0.35 },
+      agresivo:  { min: 0.40, max: 0.55 }
+    };
+    const HORIZONTES = [1, 3, 5];
+    let simData = {};   // { 1: [...meses], 3: [...], 5: [...] }
+    let simChart = null;
+    let activeHorizon = 1;
+
+    // Sincronizar slider de tasa con el perfil seleccionado
+    function simUpdateRange() {
+      const perfil = document.querySelector('input[name="simPerfil"]:checked').value;
+      const rango  = RANGOS[perfil];
+      const slider = document.getElementById('simTasa');
+      slider.min   = Math.round(rango.min * 100);
+      slider.max   = Math.round(rango.max * 100);
+      slider.value = Math.round(((rango.min + rango.max) / 2) * 100);
+      document.getElementById('simTasaVal').textContent = slider.value + '%';
+      const labels = document.querySelector('.sim-range-labels');
+      labels.children[0].textContent = slider.min + '%';
+      labels.children[1].textContent = slider.max + '%';
+    }
+
+    document.querySelectorAll('input[name="simPerfil"]').forEach(r =>
+      r.addEventListener('change', simUpdateRange)
+    );
+    document.getElementById('simTasa').addEventListener('input', function () {
+      document.getElementById('simTasaVal').textContent = this.value + '%';
+    });
+
+    // Calcular meses para un horizonte dado
+    function calcularMeses(capital, aportacion, tasaAnual, retiros, meses) {
+      const tasaMensual = Math.pow(1 + tasaAnual, 1 / 12) - 1;
+      const rows = [];
+      let saldo = capital;
+      for (let m = 1; m <= meses; m++) {
+        const saldoInicial  = saldo;
+        const rendimiento   = saldoInicial * tasaMensual;
+        const retiro        = retiros ? Math.max(0, rendimiento * 0.5) : 0;
+        const saldoFinal    = saldoInicial + aportacion + rendimiento - retiro;
+        rows.push({ m, saldoInicial, aportacion, rendimiento, retiro, saldoFinal });
+        saldo = saldoFinal;
+      }
+      return rows;
+    }
+
+    window.simCalcular = function () {
+      const capital    = parseFloat(document.getElementById('simCapital').value)    || 0;
+      const aportacion = parseFloat(document.getElementById('simAportacion').value) || 0;
+      const tasaAnual  = parseFloat(document.getElementById('simTasa').value) / 100;
+      const retiros    = document.querySelector('input[name="simRetiros"]:checked').value === 'si';
+
+      simData = {};
+      HORIZONTES.forEach(a => {
+        simData[a] = calcularMeses(capital, aportacion, tasaAnual, retiros, a * 12);
+      });
+
+      activeHorizon = 1;
+      document.querySelectorAll('.sim-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+
+      document.getElementById('simResults').style.display = 'flex';
+      document.getElementById('simResults').style.flexDirection = 'column';
+      document.getElementById('simResults').style.gap = '24px';
+
+      simRenderAll();
+    };
+
+    function simRenderAll() {
+      simRenderCards();
+      simRenderChart();
+      simRenderTable();
+    }
+
+    function fmt(n) {
+      return '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function simRenderCards() {
+      const rows  = simData[activeHorizon];
+      const last  = rows[rows.length - 1];
+      const total = rows.reduce((a, r) => ({
+        rend:   a.rend   + r.rendimiento,
+        retiro: a.retiro + r.retiro,
+        aport:  a.aport  + r.aportacion
+      }), { rend: 0, retiro: 0, aport: 0 });
+
+      const retirosOn = rows.some(r => r.retiro > 0);
+      const cards = document.getElementById('simCards');
+
+      cards.innerHTML = `
+        <div class="sim-card highlight">
+          <div class="sim-card-label">Saldo final proyectado</div>
+          <div class="sim-card-value">${fmt(last.saldoFinal)}</div>
+          <div class="sim-card-sub">Al cabo de ${activeHorizon} año${activeHorizon > 1 ? 's' : ''}</div>
+        </div>
+        <div class="sim-card">
+          <div class="sim-card-label">Rendimientos generados</div>
+          <div class="sim-card-value">${fmt(total.rend)}</div>
+          <div class="sim-card-sub">Bruto antes de retiros</div>
+        </div>
+        <div class="sim-card">
+          <div class="sim-card-label">${retirosOn ? 'Total retirado' : 'Aportaciones totales'}</div>
+          <div class="sim-card-value">${fmt(retirosOn ? total.retiro : total.aport)}</div>
+          <div class="sim-card-sub">${retirosOn ? 'Liquidez recibida' : 'Capital adicional aportado'}</div>
+        </div>
+      `;
+    }
+
+    function simRenderChart() {
+      const rows   = simData[activeHorizon];
+      const labels = rows.map(r => 'M' + r.m);
+      const data   = rows.map(r => parseFloat(r.saldoFinal.toFixed(2)));
+      const ctx    = document.getElementById('simChart').getContext('2d');
+
+      if (simChart) simChart.destroy();
+
+      simChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Saldo ($)',
+            data,
+            borderColor: '#c9a84c',
+            backgroundColor: 'rgba(201,168,76,.1)',
+            borderWidth: 2.5,
+            pointRadius: rows.length > 24 ? 0 : 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: '#c9a84c',
+            tension: 0.4,
+            fill: true,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0d1f3c',
+              borderColor: 'rgba(201,168,76,.4)',
+              borderWidth: 1,
+              titleColor: '#c9a84c',
+              bodyColor: '#fff',
+              callbacks: {
+                label: ctx => ' ' + fmt(ctx.raw)
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: 'rgba(255,255,255,.35)', font: { size: 11 }, maxTicksLimit: 12 },
+              grid:  { color: 'rgba(255,255,255,.05)' }
+            },
+            y: {
+              ticks: {
+                color: 'rgba(255,255,255,.35)', font: { size: 11 },
+                callback: v => '$' + (v >= 1e6 ? (v/1e6).toFixed(1)+'M' : v >= 1e3 ? (v/1e3).toFixed(0)+'K' : v)
+              },
+              grid: { color: 'rgba(255,255,255,.05)' }
+            }
+          }
+        }
+      });
+    }
+
+    function simRenderTable() {
+      const rows  = simData[activeHorizon];
+      const table = document.getElementById('simTable');
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>Mes</th>
+            <th>Saldo Inicial</th>
+            <th>Aportación</th>
+            <th>Rendimiento $</th>
+            <th>Retiro $</th>
+            <th>Saldo Final</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(r => `
+            <tr>
+              <td>${r.m}</td>
+              <td>${fmt(r.saldoInicial)}</td>
+              <td>${fmt(r.aportacion)}</td>
+              <td>${fmt(r.rendimiento)}</td>
+              <td>${fmt(r.retiro)}</td>
+              <td>${fmt(r.saldoFinal)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      `;
+    }
+
+    window.simSetHorizon = function (years, btn) {
+      activeHorizon = years;
+      document.querySelectorAll('.sim-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      simRenderAll();
+    };
+
+    window.simToggleTable = function (btn) {
+      const body    = document.getElementById('simTableBody');
+      const chevron = btn.querySelector('.sim-chevron');
+      const open    = body.style.display === 'none';
+      body.style.display = open ? 'block' : 'none';
+      chevron.classList.toggle('open', open);
+      btn.childNodes[1].textContent = open ? ' Ocultar tabla mes a mes' : ' Ver tabla mes a mes';
     };
   })();
 </script>
