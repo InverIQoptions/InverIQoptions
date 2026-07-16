@@ -202,6 +202,76 @@
   <footer>
     Servicios de consultoría, administración de negocios e investigación. Contenido informativo/educativo.
   </footer>
+<!-- ==================== SCREENER ==================== -->
+<section id="screener-section">
+  <h2>Screener de Oportunidades</h2>
+  <p>Monitoreo diario de catalizadores en diferentes capitalizaciones.</p>
+  
+  <button onclick="loadScreener()">🔄 Cargar Screener Ahora</button>
+  
+  <div id="screener-results" style="margin-top: 30px;"></div>
+</section>
 
+<!-- ==================== CALCULADORA DCF ==================== -->
+<section id="dcf-section">
+  <h2>Calculadora DCF</h2>
+  <p>Valuación intrínseca de empresas usando datos SEC.</p>
+  
+  <input type="text" id="ticker-input" placeholder="Ingresa ticker (ej: AAPL)" style="padding:10px; font-size:1.1rem; width:200px;">
+  <button onclick="runDCF()">Calcular DCF</button>
+  
+  <div id="dcf-results" style="margin-top: 30px; white-space: pre-wrap;"></div>
+</section>
+  <script>
+// Configuración del backend (cámbialo cuando subas el backend)
+const API_BASE = "http://127.0.0.1:8000";
+
+async function loadScreener() {
+  const container = document.getElementById("screener-results");
+  container.innerHTML = "<p>Cargando screener...</p>";
+
+  try {
+    const res = await fetch(`${API_BASE}/screener`);
+    const data = await res.json();
+
+    let html = "<h3>Última actualización: " + data.last_updated + "</h3>";
+
+    for (let [category, items] of Object.entries(data.watchlists)) {
+      html += `<h4>${category}</h4><div class="grid">`;
+      
+      items.forEach(item => {
+        const color = item.signal?.color || "red";
+        html += `
+          <div class="card" style="border-left: 5px solid ${color === 'green' ? '#22c55e' : color === 'yellow' ? '#eab308' : '#ef4444'};">
+            <h3>${item.ticker}</h3>
+            <p><strong>Estado:</strong> ${item.signal?.action || 'Esperando'}</p>
+          </div>`;
+      });
+      
+      html += "</div>";
+    }
+    container.innerHTML = html;
+  } catch (e) {
+    container.innerHTML = "<p style='color:red'>Error: Asegúrate que el backend esté corriendo (uvicorn).</p>";
+  }
+}
+
+async function runDCF() {
+  const ticker = document.getElementById("ticker-input").value.trim().toUpperCase();
+  if (!ticker) return alert("Ingresa un ticker");
+
+  const container = document.getElementById("dcf-results");
+  container.innerHTML = "<p>Calculando DCF...</p>";
+
+  try {
+    const res = await fetch(`${API_BASE}/valuation/${ticker}/dcf`);
+    const data = await res.json();
+
+    container.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  } catch (e) {
+    container.innerHTML = "<p style='color:red'>Error: Verifica que el backend esté activo.</p>";
+  }
+}
+</script>
 </body>
 </html>
