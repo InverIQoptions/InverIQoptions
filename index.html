@@ -1061,6 +1061,7 @@
         <li><a href="#blog"       data-section="blog">Blog</a></li>
         <li><a href="#perfilamiento" data-section="perfilamiento">Perfil</a></li>
         <li><a href="#simulador"  data-section="simulador">Simulador</a></li>
+        <li><a href="#estudiar-gratis" data-section="estudiar-gratis">Estudiar gratis</a></li>
         <li><a href="#contacto"   data-section="contacto" class="btn btn-primary">Contacto</a></li>
       </ul>
       <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
@@ -1819,6 +1820,29 @@
       * Los rendimientos mostrados son proyecciones estimadas con fines educativos e ilustrativos. No constituyen garantía de resultado ni asesoría personalizada de inversión. Las tasas pasadas no garantizan rendimientos futuros.
     </p>
 
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════ ESTUDIAR GRATIS -->
+<section id="estudiar-gratis" class="section" style="background:var(--navy);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Curso CFA gratis</span>
+      <h2 class="section-title" style="color:var(--white)">Estudia gratis con INVERIQ</h2>
+      <p class="section-subtitle" style="color:rgba(255,255,255,.75)">
+        El curso CFA gratis de INVERIQ: 168 conceptos, uno por uno, en inglés, español y francés,
+        desde Ética hasta Portfolio Management, publicados a diario en Instagram.
+        Gratis, sin costo, con preguntas de estudio originales inspiradas en el temario del CFA.
+      </p>
+    </div>
+    <div class="cta-actions" style="justify-content:center;">
+      <a href="https://www.instagram.com/inver_iq_options" target="_blank" class="btn btn-primary">Ver el curso en Instagram</a>
+      <a href="https://www.instagram.com/inver_iq_options" target="_blank" class="btn btn-outline">Empezar por el post 001</a>
+    </div>
+    <p class="sim-disclaimer" style="text-align:center;margin-top:18px;">
+      Contenido educativo gratuito. No es asesoría personalizada de inversión.
+    </p>
   </div>
 </section>
 
@@ -2593,5 +2617,65 @@
     pfRender('forward');
   })();
 </script>
+<!-- INVERIQ chat widget — paste before </body> in index.html. No backend, no data leaves the page except WhatsApp/mailto links the visitor taps. -->
+<style>
+#iqChatBtn{position:fixed;right:18px;bottom:18px;z-index:9999;width:60px;height:60px;border-radius:50%;border:0;background:#0b2a4a;color:#fff;font-size:28px;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+#iqChatPanel{position:fixed;right:18px;bottom:90px;z-index:9999;width:min(360px,calc(100vw - 36px));height:480px;max-height:70vh;background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.3);display:none;flex-direction:column;overflow:hidden;font-family:inherit}
+#iqChatPanel.open{display:flex}
+#iqChatHead{background:#0b2a4a;color:#fff;padding:14px 16px}
+#iqChatHead b{display:block;font-size:15px}
+#iqChatHead span{font-size:12px;opacity:.85}
+#iqChatMsgs{flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;background:#f4f7fa}
+.iqMsg{max-width:85%;padding:10px 12px;border-radius:12px;font-size:14px;line-height:1.45;white-space:pre-wrap}
+.iqBot{background:#fff;border:1px solid #e2e8f0;align-self:flex-start}
+.iqUser{background:#0b2a4a;color:#fff;align-self:flex-end}
+.iqChips{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;background:#f4f7fa}
+.iqChips button{border:1px solid #0b2a4a;background:#fff;color:#0b2a4a;border-radius:20px;padding:6px 10px;font-size:12px;cursor:pointer}
+#iqChatForm{display:flex;border-top:1px solid #e2e8f0}
+#iqChatInput{flex:1;border:0;padding:13px;font-size:14px;outline:none}
+#iqChatForm button{border:0;background:#25d366;color:#fff;padding:0 18px;font-size:14px;cursor:pointer}
+.iqLeadBtn{display:inline-block;margin-top:8px;background:#25d366;color:#fff;text-decoration:none;padding:9px 14px;border-radius:10px;font-weight:700}
+</style>
+<button id="iqChatBtn" aria-label="Chatea con INVERIQ">💬</button>
+<div id="iqChatPanel" role="dialog" aria-label="Chat de INVERIQ">
+  <div id="iqChatHead"><b>INVERIQ · Chat 💬</b><span>Muse te responde al instante · Fer te marca si eres un lead</span></div>
+  <div id="iqChatMsgs"></div>
+  <div class="iqChips">
+    <button type="button" data-q="¿Qué servicios ofrecen?">Servicios</button>
+    <button type="button" data-q="¿Cuánto cuestan los planes?">Precios</button>
+    <button type="button" data-q="¿Qué es el curso CFA gratis?">Curso CFA gratis</button>
+    <button type="button" data-q="Quiero hablar con Fer">Hablar con Fer</button>
+  </div>
+  <form id="iqChatForm"><input id="iqChatInput" type="text" placeholder="Escribe tu duda…" autocomplete="off"/><button type="submit">Enviar</button></form>
+</div>
+<script>
+(function(){
+var btn=document.getElementById('iqChatBtn'),panel=document.getElementById('iqChatPanel'),
+msgs=document.getElementById('iqChatMsgs'),form=document.getElementById('iqChatForm'),
+input=document.getElementById('iqChatInput');
+var WA='https://wa.me/525539595584?text=Hola%20INVERIQ%2C%20quiero%20una%20asesor%C3%ADa.';
+var MAIL='mailto:inveriqoptionsspv@gmail.com?subject=Quiero%20una%20asesor%C3%ADa%20%E2%80%94%20INVERIQ';
+function add(text,who){var d=document.createElement('div');d.className='iqMsg '+(who||'iqBot');d.textContent=text;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d;}
+function leadCard(){var d=add('¡Perfecto! Para que Fer te marque, escríbenos por WhatsApp y le llega tu mensaje luego luego.','iqBot');var a=document.createElement('a');a.className='iqLeadBtn';a.href=WA;a.target='_blank';a.textContent='💬 Escribirle a Fer por WhatsApp';d.appendChild(document.createElement('br'));d.appendChild(a);var m=document.createElement('a');m.className='iqLeadBtn';m.style.background='#0b2a4a';m.href=MAIL;m.textContent='✉️ Escribir por correo';d.appendChild(document.createElement('br'));d.appendChild(m);}
+function answer(q){
+  var t=' '+q.toLowerCase()+' ';
+  var lead=/contratar|asesor|quiero|precio|llamar|ll[aá]mame|agendar|cita|whatsapp|tel[eé]fono|empresa|pyme|hablar con fer|me interesa|empezar/.test(t);
+  if(/cfa|curso|gratis|examen/.test(t)) return 'Nuestro curso CFA es gratis y está en Instagram @inver_iq_options: 168 conceptos, uno por uno, en inglés, español y francés, desde Ética hasta Portfolio Management. ¡Empieza por el post 001! ¿Quieres que Fer te ayude a arrancar?';
+  if(/precio|cuesta|plan|costo/.test(t)) return 'Tenemos 3 planes al mes: Básico $149, Profesional $299 y Empresa $549. Todos incluyen contabilidad y plantillas Excel; el Profesional y el Empresa suman proyecciones y reuniones. ¿Te digo cuál te conviene para tu empresa?';
+  if(/servicio|hacen|ofrecen|contabilidad|excel|remodel/.test(t)) return 'Ayudamos a PYMES con consultoría contable y fiscal, administración y control de remodelaciones, y plantillas Excel de finanzas personales y de negocio. ¿Cuál te interesa?';
+  if(/donde|direcci|oficina|ubicaci/.test(t)) return 'Estamos en Lago Gran Oso 234, Miguel Hidalgo, CDMX 11430. Atendemos presencial, virtual o por teléfono, Lun–Vie 8:00 AM a 6:00 PM.';
+  if(/contacto|correo|email|horario/.test(t)) return 'Nos puedes escribir a inveriqoptionsspv@gmail.com, por WhatsApp al 55 3959 5584 o al 55 2685 5030. Horario Lun–Vie 8:00 AM a 6:00 PM.';
+  if(/simulador|riesgo|perfil/.test(t)) return 'En la página tienes el cuestionario de perfil de riesgo (20 preguntas) y el simulador de inversión. Son herramientas educativas para orientarte, no asesoría personalizada.';
+  if(lead){leadCard();return null;}
+  if(/hola|buenas|qué tal/.test(t)) return '¡Hola! Soy Muse, de INVERIQ. Te ayudo con servicios, precios, el curso CFA gratis o a contactar con Fer. ¿Qué necesitas?';
+  return 'Te ayudo con eso: pregúntame por servicios, precios, el curso CFA gratis, o dime "quiero hablar con Fer" y te paso con él por WhatsApp.';
+}
+function send(q){if(!q.trim())return;add(q,'iqUser');var r=answer(q);if(r)add(r,'iqBot');}
+btn.addEventListener('click',function(){panel.classList.toggle('open');if(panel.classList.contains('open')&&!msgs.children.length){add('¡Hola! Soy Muse, de INVERIQ 🤍 ¿En qué te ayudo? Puedes preguntarme por servicios, precios o el curso CFA gratis.','iqBot');}input.focus();});
+form.addEventListener('submit',function(e){e.preventDefault();var q=input.value;input.value='';send(q);});
+document.querySelectorAll('.iqChips button').forEach(function(b){b.addEventListener('click',function(){send(b.getAttribute('data-q'));});});
+})();
+</script>
+
 </body>
 </html>
